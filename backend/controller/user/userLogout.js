@@ -1,5 +1,6 @@
 async function userLogout(req,res){
     try{
+        // xóa cookie token khỏi truỳnh duyết => người dùng bị logout ra khỏi web
         res.clearCookie("token")
 
         res.json({

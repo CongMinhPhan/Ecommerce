@@ -55,9 +55,9 @@ const Header = () => {
   return (
     <header className='h-16 shadow-md bg-white fixed w-full z-40'>
       <div className=' h-full container mx-auto flex items-center px-4 justify-between'>
-            <div className=''>
+            <div className='flex items-center'>
                 <Link to={"/"}>
-                    <Logo w={90} h={50}/>
+                    <Logo w={60} h={40}/>
                 </Link>
             </div>
 
@@ -89,17 +89,24 @@ const Header = () => {
                   
                   
                   {
-                    menuDisplay && (
-                      <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded' >
-                        <nav>
-                          {
-                            user?.role === ROLE.ADMIN && (
-                              <Link to={"/admin-panel/all-products"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Admin Panel</Link>
-                            )
-                          }
-                         
-                        </nav>
-                      </div>
+                    menuDisplay   ? (
+                      <>
+                            <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded' >
+                          <nav>
+                            {
+                              user?.role === ROLE.ADMIN && (
+                                <Link to={"/admin-panel/all-products"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Admin Panel</Link>
+                              )
+                            }
+                            
+                          </nav>
+                        </div>
+                      </>
+                  
+                    ) : (
+                      <>
+                        {/* <div className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2'>MenuUser</div> */}
+                      </>
                     )
                   }
                  
