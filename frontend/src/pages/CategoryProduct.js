@@ -7,13 +7,13 @@ import SummaryApi from '../common'
 const CategoryProduct = () => {
     const [data,setData] = useState([])
     const navigate = useNavigate()
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const location = useLocation()
     const urlSearch = new URLSearchParams(location.search)
     const urlCategoryListinArray = urlSearch.getAll("category")
 
     const urlCategoryListObject = {}
-    urlCategoryListinArray.forEach(el =>{
+    urlCategoryListinArray.forEach(el => { 
       urlCategoryListObject[el] = true
     })
 
