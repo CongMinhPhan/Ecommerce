@@ -2,6 +2,7 @@ const productModel = require("../../models/productModel")
 
 const getProductController = async(req,res)=>{
     try{
+        // sap xep theo thu tu giam dan
         const allProduct = await productModel.find().sort({ createdAt : -1 })
 
         res.json({
@@ -11,7 +12,8 @@ const getProductController = async(req,res)=>{
             data : allProduct
         })
 
-    }catch(err){
+    }
+    catch(err){
         res.status(400).json({
             message : err.message || err,
             error : true,

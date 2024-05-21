@@ -18,21 +18,17 @@ const AdminProductCard = ({
             <h1 className='text-ellipsis line-clamp-2'>{data.productName}</h1>
 
             <div>
-
                 <p className='font-semibold'>
                   {
                     displayINRCurrency(data.sellingPrice)
                   }
-        
                 </p>
 
                 <div className='w-fit ml-auto p-2 bg-green-100 hover:bg-green-600 rounded-full hover:text-white cursor-pointer' onClick={()=>setEditProduct(true)}>
                     <MdModeEditOutline/>
                 </div>
-
             </div>
-
-          
+                  
        </div>
         
         {
