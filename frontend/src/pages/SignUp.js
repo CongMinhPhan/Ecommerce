@@ -88,7 +88,7 @@ const SignUp = () => {
                         <form>
                           <label>
                             <div className='text-xs bg-opacity-80 bg-slate-200 pb-4 pt-2 cursor-pointer text-center absolute bottom-0 w-full'>
-                              Upload  Photo
+                                Ảnh
                             </div>
                             <input type='file' className='hidden' onChange={handleUploadPic}/>
                           </label>
@@ -97,7 +97,7 @@ const SignUp = () => {
 
                     <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>
                       <div className='grid'>
-                              <label>Name : </label>
+                              <label>Tên : </label>
                               <div className='bg-slate-100 p-2'>
                                   <input 
                                       type='text' 
@@ -124,7 +124,7 @@ const SignUp = () => {
                         </div>
 
                         <div>
-                            <label>Password : </label>
+                            <label>Mật khẩu : </label>
                             <div className='bg-slate-100 p-2 flex'>
                                 <input 
                                     type={showPassword ? "text" : "password"} 
@@ -151,7 +151,7 @@ const SignUp = () => {
                         </div>
 
                         <div>
-                            <label>Confirm Password : </label>
+                            <label>Nhắc lại mật khẩu : </label>
                             <div className='bg-slate-100 p-2 flex'>
                                 <input 
                                     type={showConfirmPassword ? "text" : "password"} 
@@ -178,11 +178,11 @@ const SignUp = () => {
                             </div>
                         </div>
 
-                        <button className='bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6'>Sign Up</button>
+                        <button className='bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6'>Đăng ký</button>
 
                     </form>
 
-                    <p className='my-5'>Already have account ? <Link to={"/login"} className=' text-red-600 hover:text-red-700 hover:underline'>Login</Link></p>
+                    <p className='my-5'>Đã có tài khoản ? <Link to={"/login"} className=' text-red-600 hover:text-red-700 hover:underline'>Đăng nhập</Link></p>
             </div>
 
 

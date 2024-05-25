@@ -6,15 +6,14 @@ const getProductDetails = async(req,res)=>{
 
         const product = await productModel.findById(productId)
 
-        res.json({
+        res.json ({
             data : product,
             message : "Ok",
             success : true,
             error : false
         })
-
-        
-    }catch(err){
+    }
+    catch(err) {
         res.json({
             message : err?.message  || err,
             error : true,

@@ -19,9 +19,6 @@ const CategroyWiseProductDisplay = ({category, heading}) => {
        fetchUserAddToCart()
     }
 
-
-
-
     const fetchData = async() =>{
         setLoading(true)
         const categoryProduct = await fetchCategoryWiseProduct(category)

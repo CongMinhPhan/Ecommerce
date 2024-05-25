@@ -81,7 +81,7 @@ const Login = () => {
                         </div>
 
                         <div>
-                            <label>Password : </label>
+                            <label>Mật khẩu : </label>
                             <div className='bg-slate-100 p-2 flex'>
                                 <input 
                                     type={showPassword ? "text" : "password"} 
@@ -105,15 +105,15 @@ const Login = () => {
                                 </div>
                             </div>
                             <Link to={'/forgot-password'} className='block w-fit ml-auto hover:underline hover:text-red-600'>
-                                Forgot password ?
+                                Quên mật khẩu ?
                             </Link>
                         </div>
 
-                        <button className='bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6'>Login</button>
+                        <button className='bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6'>Đăng nhập</button>
 
                     </form>
 
-                    <p className='my-5'>Don't have account ? <Link to={"/sign-up"} className=' text-red-600 hover:text-red-700 hover:underline'>Sign up</Link></p>
+                    <p className='my-5'>Chưa có tài khoản ? <Link to={"/sign-up"} className=' text-red-600 hover:text-red-700 hover:underline'>Đăng ký</Link></p>
             </div>
 
 

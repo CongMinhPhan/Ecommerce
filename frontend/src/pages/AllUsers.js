@@ -43,11 +43,11 @@ const AllUsers = () => {
             <thead>
                 <tr className='bg-black text-white'>
                     <th>Sr.</th>
-                    <th>Name</th>
+                    <th>Tên</th>
                     <th>Email</th>
-                    <th>Role</th>
-                    <th>Created Date</th>
-                    <th>Action</th>
+                    <th>Quyền</th>
+                    <th>Ngày tạo</th>
+                    <th>Hành động</th>
                 </tr>
             </thead>
             <tbody className=''>

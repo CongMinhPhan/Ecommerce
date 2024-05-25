@@ -101,14 +101,14 @@ const AdminEditProduct = ({
     <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden'>
 
          <div className='flex justify-between items-center pb-3'>
-             <h2 className='font-bold text-lg'>Edit Product</h2>
+             <h2 className='font-bold text-lg'>Sửa sản phẩm</h2>
              <div className='w-fit ml-auto text-2xl hover:text-red-600 cursor-pointer' onClick={onClose}>
                  <CgClose/>
              </div>
          </div>
 
        <form className='grid p-4 gap-2 overflow-y-scroll h-full pb-5' onSubmit={handleSubmit}>
-         <label htmlFor='productName'>Product Name :</label>
+         <label htmlFor='productName'>Tên sản phẩm :</label>
          <input 
            type='text' 
            id='productName' 
@@ -121,7 +121,7 @@ const AdminEditProduct = ({
          />
 
 
-         <label htmlFor='brandName' className='mt-3'>Brand Name :</label>
+         <label htmlFor='brandName' className='mt-3'>Tên hãng :</label>
          <input 
            type='text' 
            id='brandName' 
@@ -133,7 +133,7 @@ const AdminEditProduct = ({
            required
          />
 
-           <label htmlFor='category' className='mt-3'>Category :</label>
+           <label htmlFor='category' className='mt-3'>Danh mục :</label>
            <select required value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 border rounded'>
                <option value={""}>Select Category</option>
                {
@@ -145,12 +145,12 @@ const AdminEditProduct = ({
                }
            </select>
 
-           <label htmlFor='productImage' className='mt-3'>Product Image :</label>
+           <label htmlFor='productImage' className='mt-3'>Ảnh sản phẩm :</label>
            <label htmlFor='uploadImageInput'>
            <div className='p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer'>
                      <div className='text-slate-500 flex justify-center items-center flex-col gap-2'>
                        <span className='text-4xl'><FaCloudUploadAlt/></span>
-                       <p className='text-sm'>Upload Product Image</p>
+                       <p className='text-sm'>Cập nhật ảnh</p>
                        <input type='file' id='uploadImageInput'  className='hidden' onChange={handleUploadProduct}/>
                      </div>
            </div>
@@ -184,13 +184,13 @@ const AdminEditProduct = ({
                          }
                      </div>
                  ) : (
-                   <p className='text-red-600 text-xs'>*Please upload product image</p>
+                   <p className='text-red-600 text-xs'>*Hãy cập nhật ảnh </p>
                  )
                }
                
            </div>
 
-           <label htmlFor='price' className='mt-3'>Price :</label>
+           <label htmlFor='price' className='mt-3'>Gía :</label>
            <input 
              type='number' 
              id='price' 
@@ -203,7 +203,7 @@ const AdminEditProduct = ({
            />
 
 
-           <label htmlFor='sellingPrice' className='mt-3'>Selling Price :</label>
+           <label htmlFor='sellingPrice' className='mt-3'>Giá bán :</label>
            <input 
              type='number' 
              id='sellingPrice' 
@@ -215,7 +215,7 @@ const AdminEditProduct = ({
              required
            />
 
-           <label htmlFor='description' className='mt-3'>Description :</label>
+           <label htmlFor='description' className='mt-3'>Mô tả :</label>
            <textarea 
              className='h-28 bg-slate-100 border resize-none p-1' 
              placeholder='enter product description' 

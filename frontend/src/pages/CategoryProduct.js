@@ -106,12 +106,12 @@ const CategoryProduct = () => {
                     <form className='text-sm flex flex-col gap-2 py-2'>
                         <div className='flex items-center gap-3'>
                           <input type='radio' name='sortBy' checked={sortBy === 'asc'} onChange={handleOnChangeSortBy} value={"asc"}/>
-                          <label>Price - Low to High</label>
+                          <label>Gía từ Thấp - Cao</label>
                         </div>
 
                         <div className='flex items-center gap-3'>
                           <input type='radio' name='sortBy' checked={sortBy === 'dsc'} onChange={handleOnChangeSortBy} value={"dsc"}/>
-                          <label>Price - High to Low</label>
+                          <label>Gia từ Cao - Thấp</label>
                         </div>
                     </form>
                 </div>
@@ -141,7 +141,7 @@ const CategoryProduct = () => {
 
             {/***right side ( product ) */}
             <div className='px-4'>
-              <p className='font-medium text-slate-800 text-lg my-2'>Search Results : {data.length}</p>
+              <p className='font-medium text-slate-800 text-lg my-2'>Kết quả tìm kiếm : {data.length}</p>
 
              <div className='min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]'>
               {

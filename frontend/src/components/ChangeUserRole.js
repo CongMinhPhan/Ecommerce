@@ -55,11 +55,11 @@ const ChangeUserRole = ({
 
             <h1 className='pb-4 text-lg font-medium'>Change User Role</h1>
 
-             <p>Name : {name}</p>   
+             <p>Tên : {name}</p>   
              <p>Email : {email}</p> 
 
             <div className='flex items-center justify-between my-4'>
-                <p>Role :</p>  
+                <p>Quyền :</p>  
                 <select className='border px-4 py-1' value={userRole} onChange={handleOnChangeSelect}>
                     {
                         Object.values(ROLE).map(el => {
@@ -72,7 +72,7 @@ const ChangeUserRole = ({
             </div>
 
 
-            <button className='w-fit mx-auto block  py-1 px-3 rounded-full bg-red-600 text-white hover:bg-red-700' onClick={updateUserRole}>Change Role</button>
+            <button className='w-fit mx-auto block  py-1 px-3 rounded-full bg-red-600 text-white hover:bg-red-700' onClick={updateUserRole}>Thay đổi quyền</button>
        </div>
     </div>
   )

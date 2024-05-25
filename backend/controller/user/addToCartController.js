@@ -1,6 +1,6 @@
 const addToCartModel = require("../../models/cartProduct")
 
-const addToCartController = async(req,res)=>{
+const addToCartController = async (req,res)=>{
     try{
         const { productId } = req?.body
         const currentUser = req.userId
@@ -35,7 +35,8 @@ const addToCartController = async(req,res)=>{
         })
         
 
-    }catch(err){
+    } 
+    catch(err){
         res.json({
             message : err?.message || err,
             error : true,
