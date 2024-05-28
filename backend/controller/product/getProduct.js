@@ -4,6 +4,7 @@ const getProductController = async(req,res)=>{
     try{
         // sap xep theo thu tu giam dan
         const allProduct = await productModel.find().sort({ createdAt : -1 })
+        console.log('all product', allProduct);
 
         res.json({
             message : "All Product",

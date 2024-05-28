@@ -48,7 +48,8 @@ const Header = () => {
 
     if(value){
       navigate(`/search?q=${value}`)
-    }else{
+    }
+    else{
       navigate("/search")
     }
   }
@@ -91,14 +92,23 @@ const Header = () => {
                   {
                     menuDisplay   ? (
                       <>
-                            <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded' >
+                        <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded' >
                           <nav>
                             {
                               user?.role === ROLE.ADMIN && (
                                 <Link to={"/admin-panel/all-products"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Quản lý</Link>
                               )
+                             
                             }
-                            
+                            {
+                              user?.role === ROLE.GENERAL && (
+                                (
+                                  <Link to={"/user-info"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2'>
+                                    Thông tin người dùng
+                                  </Link>
+                                )
+                              )
+                            }
                           </nav>
                         </div>
                       </>

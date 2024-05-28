@@ -4,11 +4,12 @@ import SummaryApi from '../common'
 import VerticalCard from '../components/VerticalCard'
 
 const SearchProduct = () => {
+  // Lay thong tin tai URL hien tai
     const query = useLocation()
-    const [data,setData] = useState([])
-    const [loading,setLoading] = useState(false)
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    console.log("query",query.search)
+    console.log("query", query.search)
 
     const fetchProduct = async()=>{
         setLoading(true)
@@ -19,9 +20,9 @@ const SearchProduct = () => {
         setData(dataResponse.data)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchProduct()
-    },[query])
+    }, [query])
 
   return (
     <div className='container mx-auto p-4'>

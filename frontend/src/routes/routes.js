@@ -11,6 +11,7 @@ import CategoryProduct from '../pages/CategoryProduct'
 import ProductDetails from '../pages/ProductDetails'
 import Cart from '../pages/Cart'
 import SearchProduct from '../pages/SearchProduct'
+import UserInfo from '../pages/UserInfo'
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
                     }
                 ]
             },
+            {
+                path : "user-info",
+                element: <UserInfo />
+            }
         ]
     }
 ])

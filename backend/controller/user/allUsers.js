@@ -4,6 +4,7 @@ async function allUsers(req,res){
     try{
         console.log("userid all Users",req.userId)
 
+        // Tim kiem tat ca user
         const allUsers = await userModel.find()
         
         res.json({
@@ -12,7 +13,8 @@ async function allUsers(req,res){
             success : true,
             error : false
         })
-    }catch(err){
+    }
+    catch(err){
         res.status(400).json({
             message : err.message || err,
             error : true,

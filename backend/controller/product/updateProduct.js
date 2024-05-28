@@ -12,7 +12,7 @@ async function updateProductController(req,res){
 
         const updateProduct = await productModel.findByIdAndUpdate(_id,resBody)
         
-        res.json({
+        res.status(200).json({
             message : "Product update successfully",
             data : updateProduct,
             success : true,
@@ -20,7 +20,7 @@ async function updateProductController(req,res){
         })
 
     }catch(err){
-        res.status(400).json({
+        res.status(401).json({
             message : err.message || err,
             error : true,
             success : false

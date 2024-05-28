@@ -53,13 +53,11 @@ function App() {
           cartProductCount, // current user add to cart product count,
           fetchUserAddToCart
       }}>
-        <ToastContainer 
-          position='top-center'
-        />
+        <ToastContainer />
         
         <Header/>
         <main className='min-h-[calc(100vh-120px)] pt-16'>
-          <Outlet/>
+          <Outlet />
         </main>
         <Footer/>
       </Context.Provider>

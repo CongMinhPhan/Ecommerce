@@ -12,7 +12,7 @@ async function UploadProductController(req,res){
         const uploadProduct = new productModel(req.body)
         const saveProduct = await uploadProduct.save()
 
-        res.status(201).json({
+        res.status(200).json({
             message : "Product upload successfully",
             error : false,
             success : true,
@@ -21,7 +21,7 @@ async function UploadProductController(req,res){
 
     }
     catch(err){
-        res.status(400).json({
+        res.status(401).json({
             message : err.message || err,
             error : true,
             success : false

@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
-import { MdModeEditOutline } from "react-icons/md";
+import { MdDelete, MdModeEditOutline } from "react-icons/md";
 import AdminEditProduct from './AdminEditProduct';
 import displayINRCurrency from '../helpers/displayCurrency';
+import AdminDeleteProduct from './AdminDeleteProduct';
 
 const AdminProductCard = ({
     data,
     fetchdata
 }) => {
-    const [editProduct,setEditProduct] = useState(false)
+  const [editProduct,setEditProduct] = useState(false)
+  const [deleteProduct, setDeleteProduct] = useState(false)
+
 
   return (
     <div className='bg-white p-4 rounded '>
@@ -24,16 +27,28 @@ const AdminProductCard = ({
                   }
                 </p>
 
-                <div className='w-fit ml-auto p-2 bg-green-100 hover:bg-green-600 rounded-full hover:text-white cursor-pointer' onClick={()=>setEditProduct(true)}>
+                <div className='flex justify-between'>
+                  <div className='w-fit p-2 bg-red-100 hover:bg-red-600 rounded-full hover:text-white cursor-pointer' onClick={() => setDeleteProduct(true)}>
+                    <MdDelete/>  
+                  </div>
+                  <div className='w-fit p-2 bg-green-100 hover:bg-green-600 rounded-full hover:text-white cursor-pointer' onClick={()=>setEditProduct(true)}>
                     <MdModeEditOutline/>
+                  </div>
                 </div>
+               
             </div>
                   
        </div>
-        
+        {/* Edit product */}
         {
           editProduct && (
             <AdminEditProduct productData={data} onClose={()=>setEditProduct(false)} fetchdata={fetchdata}/>
+          )
+        }
+        {/* Delete Product */}
+        {
+          deleteProduct && (
+            <AdminDeleteProduct productData={data} onClose={() => setDeleteProduct(false)} fetchdata={fetchdata} />
           )
         }
     
