@@ -12,7 +12,9 @@ const addToCart = async(e,id) =>{
             "content-type" : 'application/json'
         },
         body : JSON.stringify(
-            { productId : id }
+            { productId : id 
+                
+            }
         )
     })
 
@@ -30,6 +32,5 @@ const addToCart = async(e,id) =>{
     return responseData
 
 }
-
 
 export default addToCart

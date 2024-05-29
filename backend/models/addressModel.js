@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
-const addressSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' }, // Tham chiếu đến người dùng
+const addressDeliverySchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     address: String,
     phoneNumber: String
 }, {
     timestamps: true
 });
 
-const addressModel = mongoose.model('address', addressSchema);
-
-module.exports = addressModel;
+const AddressDelivery = mongoose.model('AddressDelivery', addressDeliverySchema);
+module.exports = AddressDelivery;

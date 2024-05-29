@@ -1,49 +1,46 @@
-const addToCartModel = require("../../models/cartProduct")
+const addToCartModel = require("../../models/cartProduct");
 
-const addToCartController = async (req,res)=>{
-    try{
-        const { productId } = req?.body
-        const currentUser = req.userId
+const addToCartController = async (req, res) => {
+    try {
+        const { productId } = req.body; // Lấy productId từ body của request
+        const currentUser = req.userId; // Lấy userId từ request
 
-        const isProductAvailable = await addToCartModel.findOne({ productId })
+        // Kiểm tra xem sản phẩm đã có trong giỏ hàng của người dùng hay chưa
+        const isProductAvailable = await addToCartModel.findOne({ productId: productId, userId: currentUser });
 
-        console.log("isProductAvailabl   ",isProductAvailable)
+        console.log("isProductAvailable", isProductAvailable);
 
-        if(isProductAvailable){
+        if (isProductAvailable) {
             return res.json({
-                message : "Already exits in Add to cart",
-                success : false,
-                error : true
-            })
+                message: "Already exists in Add to cart",
+                success: false,
+                error: true
+            });
         }
 
-        const payload  = {
-            productId : productId,
-            quantity : 1,
-            userId : currentUser,
-        }
+        const payload = {
+            productId: productId,
+            quantity: 1,
+            userId: currentUser,
+        };
 
-        const newAddToCart = new addToCartModel(payload)
-        const saveProduct = await newAddToCart.save()
-
+        const newAddToCart = new addToCartModel(payload);
+        const saveProduct = await newAddToCart.save();
 
         return res.json({
-            data : saveProduct,
-            message : "Product Added in Cart",
-            success : true,
-            error : false
-        })
-        
+            data: saveProduct,
+            message: "Product Added in Cart",
+            success: true,
+            error: false
+        });
 
-    } 
-    catch(err){
+    } catch (err) {
         res.json({
-            message : err?.message || err,
-            error : true,
-            success : false
-        })
+            message: err?.message || err,
+            error: true,
+            success: false
+        });
     }
-}
+};
 
-
-module.exports = addToCartController
+module.exports = addToCartController;

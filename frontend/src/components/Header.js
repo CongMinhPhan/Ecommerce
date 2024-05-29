@@ -96,11 +96,11 @@ const Header = () => {
                           <nav>
                             {
                               user?.role === ROLE.ADMIN && (
-                                <Link to={"/admin-panel/all-products"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Quản lý</Link>
+                                <Link to={"/admin-panel/all-products"} className='whitespace-nowrap hidden hover:block md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Quản lý</Link>
                               )
                              
                             }
-                            {
+                            {/* {
                               user?.role === ROLE.GENERAL && (
                                 (
                                   <Link to={"/user-info"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2'>
@@ -108,7 +108,7 @@ const Header = () => {
                                   </Link>
                                 )
                               )
-                            }
+                            } */}
                           </nav>
                         </div>
                       </>

@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     profilePic: String,
     role: String,
-    addresses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'address' }], // Tham chiếu đến địa chỉ của người dùng
+    addresses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AddressDelivery' }], // Tham chiếu đến địa chỉ của người dùng
 }, {
     timestamps: true
 });

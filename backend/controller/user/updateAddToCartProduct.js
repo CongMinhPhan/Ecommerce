@@ -2,7 +2,7 @@ const addToCartModel = require("../../models/cartProduct")
 
 const updateAddToCartProduct = async(req,res)=>{
     try{
-        // const currentUserId = req.userId 
+        const currentUserId = req.userId 
         const addToCartProductId = req?.body?._id
 
         const qty = req.body.quantity
