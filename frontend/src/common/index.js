@@ -80,7 +80,16 @@ const SummaryApi = {
     filterProduct : {
         url : `${backendDomin}/api/filter-product`,
         method : 'post'
+    },
+    allSupplier : {
+        url : `${backendDomin}/api/get-supplier`,
+        method : 'get'
+    },
+    uploadSupplier : {
+        url : `${backendDomin}/api/upload-supplier`,
+        method : 'post'
     }
+    
 }
 
 

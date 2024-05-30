@@ -6,7 +6,8 @@ const inventorySchema = new mongoose.Schema({
     supplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier' },
     warehouseName: String,
     warehousePhoneNumber: String,
-    warehouseAddress: String
+    warehouseAddress: String,
+    importOrder: { type: mongoose.Schema.Types.ObjectId, ref: 'ImportOrder' }
 }, {
     timestamps: true
 });
