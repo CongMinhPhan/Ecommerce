@@ -3,22 +3,36 @@ import SummaryApi from '../common'
 import SupplierItem from '../components/SupplierItem';
 import UploadSupplier from '../components/UploadSupplier';
 
-
-
 const AllSupplier = () => {
     const [openUploadSupplier, setOpenUploadSupplier] = useState(false);
     const [allSupplier, setAllSupplier] = useState([]);
 
     const fetchAllSupplier = async () => {
-        const response = await fetch(SummaryApi.allSupplier.url)
-        const dataResponse = await response.json();
+        try {
+            const response = await fetch(SummaryApi.allSupplier.url, {
+                method: SummaryApi.allSupplier.method,
+                credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            const dataResponse = await response.json();
 
-        setAllSupplier(dataResponse?.data || [])
+            if (dataResponse.success) {
+                setAllSupplier(dataResponse.data || []);
+            } else {
+                console.error("Failed to fetch suppliers:", dataResponse.message);
+            }
+            console.log("ProductSUpplier: ", dataResponse.data.productsSupplier);
+        } 
+        catch (error) {
+            console.error("Error while fetching suppliers:", error);
+        }
     }
 
     useEffect(() => {
-        fetchAllSupplier()
-    }, [])
+        fetchAllSupplier();
+    }, []);
 
     return (
         <div>
@@ -29,29 +43,19 @@ const AllSupplier = () => {
                 </button>
             </div>
 
-
-            {/*All supplier  */}
+            {/* All supplier */}
             <div>
-                {
-                    allSupplier.map((supplier, index) => {
-                        return(
-                            <SupplierItem data={supplier} key={index+"allSupplier"} fetcbdata={fetchAllSupplier}/>
-                        )
-                    })
-                }
-              
+                {allSupplier.map((supplier, index) => (
+                    <SupplierItem data={supplier} key={index + "allSupplier"} fetcbdata={fetchAllSupplier}/>
+                ))}
             </div>
 
             {/* Upload supplier */}
-            {
-                openUploadSupplier && (
-                    <UploadSupplier onClose={() => setOpenUploadSupplier(false)} fetcbdata={fetchAllSupplier}/>
-                )
-            }
-
-
+            {openUploadSupplier && (
+                <UploadSupplier onClose={() => setOpenUploadSupplier(false)} fetcbdata={fetchAllSupplier}/>
+            )}
         </div>
     )
 }
 
-export default AllSupplier
+export default AllSupplier;

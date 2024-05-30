@@ -36,7 +36,7 @@ const AdminDeleteProduct = ({
     else {
       toast.error(responseData.message);
     }
-};
+  };
 
   return (
     <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
@@ -48,7 +48,7 @@ const AdminDeleteProduct = ({
           </div>
         </div>
 
-        <div className='p-4'>
+        <form className='p-4 overflow-y-scroll h-full'>
           <h3 className='text-xl font-bold mb-4'>Tên sản phẩm: {productData.productName}</h3>
           <p className='mb-2'>Hãng: {productData.brandName}</p>
           <p className='mb-2'>Danh mục: {productData.category}</p>
@@ -56,20 +56,19 @@ const AdminDeleteProduct = ({
           <p className='mb-2'>Giá bán: {displayINRCurrency(productData.sellingPrice)}</p>
           <p className='mb-4'>Mô tả: {productData.description}</p>
 
-          <div className='flex justify-center'>
+          <div className='flex justify-center mb-4'>
             {productData.productImage.map((el, index) => (
               <img key={index} src={el} alt={`product ${index}`} className='h-24 w-24 object-cover mx-2' />
             ))}
           </div>
 
           <div className='flex justify-between mt-4'>
-            <button className='px-4 py-2 bg-gray-300 rounded hover:bg-gray-400' onClick={onClose}>Hủy</button>
-            <button className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center' onClick={() => handleDelete(productData?._id)}>
+            <button type='button' className='px-4 py-2 bg-gray-300 rounded hover:bg-gray-400' onClick={onClose}>Hủy</button>
+            <button type='button' className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center' onClick={() => handleDelete(productData?._id)}>
               <MdDelete className='mr-2' /> Xóa
             </button>
-
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

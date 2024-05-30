@@ -29,15 +29,14 @@ const UploadProduct = ({ onClose, fetchData }) => {
   const [openFullScreenImage, setOpenFullScreenImage] = useState(false);
   const [fullScreenImage, setFullScreenImage] = useState("");
 
-  const fetchSuppliers = async () => {
-    const response = await fetch(SummaryApi.allSupplier.url)
-    const dataResponse = await response.json();
-
-    setSuppliers(dataResponse?.data || [])
-  };
-
   useEffect(() => {
-    // Lấy danh sách nhà cung cấp từ server 
+    // Lấy danh sách nhà cung cấp từ server
+    const fetchSuppliers = async () => {
+      const response = await fetch(SummaryApi.allSupplier.url)
+      const dataResponse = await response.json();
+
+      setSuppliers(dataResponse?.data || [])
+    };
     fetchSuppliers();
   }, []);
 
@@ -175,8 +174,8 @@ const UploadProduct = ({ onClose, fetchData }) => {
             }
           </select>
 
-          <label htmlFor='suppliers' className='mt-3'>Nhà cung cấp</label>
-          <div className='bg-slate-100 border rounded'>
+          <label htmlFor='suppliers' className='mt-3'>Nhà cung cấp :</label>
+          <div className='p-2 bg-slate-100 border rounded'>
             <select onChange={handleSupplierChange} className='p-2 bg-slate-100 border rounded w-full'>
               <option value="">Chọn nhà cung cấp</option>
               {
@@ -186,60 +185,61 @@ const UploadProduct = ({ onClose, fetchData }) => {
               }
             </select>
             {
-                // data.suppliers.map(supplierId => {
-                //   const supplier = suppliers.find(s => s._id === supplierId);
-                //   return (
-                //     <div key={supplierId} className='flex items-center bg-gray-200 p-2 rounded mr-2 mb-2'>
-                //       <span>{supplier?.name}</span>
-                //       <CgClose className='ml-2 cursor-pointer' onClick={() => removeSupplier(supplierId)} />
-                //     </div>
-                //   );
-                // })
-              }
-            </div>
-
-              <label htmlFor='productImage' className='mt-3'>Ảnh sản phẩm :</label>
-              {/* upload anh */}
-              <label htmlFor='uploadImageInput'>
-                <div className='p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer'>
-                  <div className='text-slate-500 flex justify-center items-center flex-col gap-2'>
-                    <span className='text-4xl'><FaCloudUploadAlt /></span>
-                    <p className='text-sm'>Thêm ảnh</p>
-                    <input type='file' id='uploadImageInput' className='hidden' onChange={handleUploadProduct} />
-                  </div>
-                </div>
-              </label>
-              {/* Hien thi anh upload */}
-              <div>
-                {
-                  data?.productImage[0] ? (
-                    <div className='flex items-center gap-2'>
-                      {
-                        data.productImage.map((el, index) => (
-                          <div className='relative group' key={index}>
-                            <img
-                              src={el}
-                              alt={el}
-                              width={80}
-                              height={80}
-                              className='bg-slate-100 border cursor-pointer'
-                              onClick={() => {
-                                setOpenFullScreenImage(true);
-                                setFullScreenImage(el);
-                              }} />
-
-                            <div className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer' onClick={() => handleDeleteProductImage(index)}>
-                              <MdDelete />
-                            </div>
-                          </div>
-                        ))
-                      }
+                data.suppliers.map(supplierId => {
+                  const supplier = suppliers.find(s => s._id === supplierId);
+                  return (
+                    <div key={supplierId} className='flex items-center bg-gray-200 p-2 rounded mr-2 mb-2'>
+                      <span>{supplier?.name}</span>
+                      <CgClose className='ml-2 cursor-pointer' onClick={() => removeSupplier(supplierId)} />
                     </div>
-                  ) : (
-                    <p className='text-red-600 text-xs'>*Hãy thêm ảnh</p>
-                  )
-                }
+                  );
+                })
+              }
+            {/* <div className='flex flex-wrap mt-2'>
+              
+            </div> */}
+          </div>
+
+          <label htmlFor='productImage' className='mt-3'>Ảnh sản phẩm :</label>
+          <label htmlFor='uploadImageInput'>
+            <div className='p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer'>
+              <div className='text-slate-500 flex justify-center items-center flex-col gap-2'>
+                <span className='text-4xl'><FaCloudUploadAlt /></span>
+                <p className='text-sm'>Thêm ảnh</p>
+                <input type='file' id='uploadImageInput' className='hidden' onChange={handleUploadProduct} />
               </div>
+            </div>
+          </label>
+          <div>
+            {
+              data?.productImage[0] ? (
+                <div className='flex items-center gap-2'>
+                  {
+                    data.productImage.map((el, index) => (
+                      <div className='relative group' key={index}>
+                        <img
+                          src={el}
+                          alt={el}
+                          width={80}
+                          height={80}
+                          className='bg-slate-100 border cursor-pointer'
+                          onClick={() => {
+                            setOpenFullScreenImage(true);
+                            setFullScreenImage(el);
+                          }} />
+
+                        <div className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer' onClick={() => handleDeleteProductImage(index)}>
+                          <MdDelete />
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              ) : (
+                <p className='text-red-600 text-xs'>*Hãy thêm ảnh</p>
+              )
+            }
+          </div>
 
           <label htmlFor='price' className='mt-3'>Giá :</label>
           <input
@@ -264,7 +264,8 @@ const UploadProduct = ({ onClose, fetchData }) => {
             className='p-2 bg-slate-100 border rounded'
             required
           />
-           <label htmlFor='length' className='mt-3'>Chiều dài (cm):</label>
+
+          <label htmlFor='length' className='mt-3'>Chiều dài (cm):</label>
           <input
             type='number'
             id='length'
@@ -311,6 +312,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
             className='p-2 bg-slate-100 border rounded'
             required
           />
+
           <label htmlFor='description' className='mt-3'>Mô tả :</label>
           <textarea
             className='h-28 bg-slate-100 border resize-none p-1'

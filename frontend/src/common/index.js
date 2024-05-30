@@ -88,6 +88,10 @@ const SummaryApi = {
     uploadSupplier : {
         url : `${backendDomin}/api/upload-supplier`,
         method : 'post'
+    },
+    ProductInSupplier : {
+        url : `${backendDomin}/api/get-product-supplier`,
+        method : 'post'
     }
     
 }
