@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const importOrderSchema = new mongoose.Schema({
-    orderCode: String,
-    supplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier' },
-    importDate: Date,
+    orderCode: { type: String, required: true },
+    importedBy: { type: String, required: true }, // Thêm trường người nhập hàng
+    supplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier', required: true },
+    importDate: { type: Date, required: true },
     products: [{
-        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-        quantity: Number
+        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+        quantity: { type: Number, required: true }
     }]
 }, {
     timestamps: true
@@ -14,3 +15,4 @@ const importOrderSchema = new mongoose.Schema({
 
 const importOrderModel = mongoose.model('ImportOrder', importOrderSchema);
 module.exports = importOrderModel;
+

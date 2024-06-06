@@ -26,6 +26,10 @@ const deleteProduct = require('../controller/product/deleteProduct')
 const UploadSupplierController = require('../controller/supplier/uploadSupplier')
 const getSupplierController = require('../controller/supplier/getSupplier')
 const getProductInSupplier = require('../controller/supplier/getProductinSupplier')
+const uploadImportOrder = require('../controller/importOrder/uploadImportOrder')
+const getImportOrder = require('../controller/importOrder/getImportOrder')
+const getProductsBySupplier = require('../controller/importOrder/getProductBySupplier')
+const getProductById = require('../helpers/getProductById')
 
 
 
@@ -34,6 +38,8 @@ router.post("/signup",userSignUpController)
 router.post("/signin",userSignInController)
 router.get("/user-details",authToken,userDetailsController)
 router.get("/userLogout",userLogout)
+
+router.post('/get-product-by-id/', getProductById);
 
 //admin panel 
 router.get("/all-user",authToken,allUsers)
@@ -59,11 +65,13 @@ router.post("/delete-cart-product",authToken,deleteAddToCartProduct)
 
 // Supplier
 router.post("/upload-supplier",authToken,UploadSupplierController)
-router.get("/get-supplier", getSupplierController);
+router.get("/get-supplier", authToken,getSupplierController);
 router.post("get-product-supplier", getProductInSupplier)
 
-
-
+// Import Order
+router.post("/upload-importOrder",authToken,uploadImportOrder)
+router.get('/get-importOrder', authToken,getImportOrder)
+router.post('/get-products-by-supplier', authToken, getProductsBySupplier)
 
 
 

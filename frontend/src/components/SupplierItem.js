@@ -1,7 +1,8 @@
-// components/SupplierItem.js
 
 import React, { useEffect, useState } from 'react';
 import SummaryApi from '../common'
+
+
 
 const SupplierItem = ({ data }) => {
     const { name, email, phoneNumber, address, productsSupplied = [] } = data;

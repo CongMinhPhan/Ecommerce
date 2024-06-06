@@ -38,6 +38,7 @@ const AdminPanel = () => {
                     <Link to={"all-users"} className='px-2 py-1 hover:bg-slate-100'>Tất cả người dùng</Link>
                     <Link to={"all-products"} className='px-2 py-1 hover:bg-slate-100'>Tất cả sản phẩm</Link>
                     <Link to={"all-supplier"} className='px-2 py-1 hover:bg-slate-100'>Nhà cung cấp</Link>
+                    <Link to={"all-importOrder"} className='px-2 py-1 hover:bg-slate-100'>Nhập hàng</Link>
                 </nav>
             </div>  
         </aside>

@@ -44,15 +44,14 @@ const AllSupplier = () => {
             </div>
 
             {/* All supplier */}
-            <div>
-                {allSupplier.map((supplier, index) => (
-                    <SupplierItem data={supplier} key={index + "allSupplier"} fetcbdata={fetchAllSupplier}/>
-                ))}
-            </div>
+            {allSupplier.map((supplier, index) => (
+                <SupplierItem data={supplier} key={index + "allSupplier"} fetchData={fetchAllSupplier} />
+            ))}
+
 
             {/* Upload supplier */}
             {openUploadSupplier && (
-                <UploadSupplier onClose={() => setOpenUploadSupplier(false)} fetcbdata={fetchAllSupplier}/>
+                <UploadSupplier onClose={() => setOpenUploadSupplier(false)} fetchData={fetchAllSupplier}/>
             )}
         </div>
     )

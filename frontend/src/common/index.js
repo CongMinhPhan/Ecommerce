@@ -92,9 +92,26 @@ const SummaryApi = {
     ProductInSupplier : {
         url : `${backendDomin}/api/get-product-supplier`,
         method : 'post'
+    },
+    allImportOrders : {
+        url : `${backendDomin}/api/get-importOrder`,
+        method : 'get'
+    },
+    uploadImportOrder: {
+        url: `${backendDomin}/api/upload-importOrder`,
+        method: 'post'
+    },
+    getProductsBySupplier: {
+        url: `${backendDomin}/api/get-products-by-supplier`,
+        method: 'post'
+    },
+    getProductById: {
+        url: `${backendDomin}/api/get-product-by-id/`, 
+        method: 'post' 
     }
-    
+
 }
+    
 
 
 export default SummaryApi

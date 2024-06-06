@@ -167,27 +167,37 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           </select>
 
           <label htmlFor='suppliers' className='mt-3'>Nhà cung cấp</label>
-          <div className='bg-slate-100 border rounded'>
-            <select onChange={handleSupplierChange} className='p-2 bg-slate-100 border rounded w-full'>
-              <option value="">{data.supplier}</option>
-              {
-                suppliers.map(supplier => (
-                  <option key={supplier._id} value={supplier._id}>{supplier.name}</option>
-                ))
-              }
-            </select>
-            {
-                // data.suppliers.map(supplierId => {
-                //   const supplier = suppliers.find(s => s._id === supplierId);
-                //   return (
-                //     <div key={supplierId} className='flex items-center bg-gray-200 p-2 rounded mr-2 mb-2'>
-                //       <span>{supplier?.name}</span>
-                //       <CgClose className='ml-2 cursor-pointer' onClick={() => removeSupplier(supplierId)} />
-                //     </div>
-                //   );
-                // })
-              }
-            </div>
+          <div className='bg-slate-100 border rounded p-2'>
+            {data.suppliers.map(supplierId => {
+              const supplier = suppliers.find(s => s._id === supplierId);
+              return (
+                <div key={supplierId} className='flex items-center bg-gray-200 p-2 rounded mr-2 mb-2'>
+                  <span>{supplier?.name}</span>
+                  <CgClose className='ml-2 cursor-pointer' onClick={() => handleSupplierChange(supplierId)} />
+                </div>
+              );
+            })}
+            <button
+              type='button'
+              onClick={() => setShowSupplierList(!showSupplierList)}
+              className='bg-blue-500 text-white p-2 rounded mt-2'
+            >
+              {showSupplierList ? 'Đóng danh sách' : 'Thêm nhà cung cấp'}
+            </button>
+            {showSupplierList && (
+              <div className='mt-2'>
+                {suppliers.map(supplier => (
+                  <div
+                    key={supplier._id}
+                    className={`p-2 cursor-pointer ${data.suppliers.includes(supplier._id) ? 'bg-green-200' : 'bg-gray-200'} mb-2 rounded`}
+                    onClick={() => handleSupplierChange(supplier._id)}
+                  >
+                    {supplier.name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           <label htmlFor='productImage' className='mt-3'>Ảnh sản phẩm :</label>
           <label htmlFor='uploadImageInput'>
@@ -262,7 +272,8 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
             value={data.description}
             name='description'
             onChange={handleOnChange}
-            className='p-2 bg-slate-100 border rounded resize-none'
+            className='p-2 bg-slate-100 border rounded resize-none overflow-hidden'
+            style={{ minHeight: '200px', height: 'auto', overflowY: 'visible' }}
             required
           ></textarea>
 
