@@ -108,6 +108,22 @@ const SummaryApi = {
     getProductById: {
         url: `${backendDomin}/api/get-product-by-id/`, 
         method: 'post' 
+    },
+    getImportOrderById:{
+        url: `${backendDomin}/api/get-importOrder-by-id`,
+        method: 'post'
+    },
+    deleteImportOrder: {
+        url: `${backendDomin}/api/delete-importOrder`,
+        method: 'post'
+    },
+    checkPasswordImportOrder: {
+        url: `${backendDomin}/api/check-password-import-order`,
+        method: 'post'
+    },
+    updateImportOrder:{
+        url: `${backendDomin}/api/update-importOrder`,
+        method: 'post'
     }
 
 }

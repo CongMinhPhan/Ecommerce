@@ -1,37 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import SummaryApi from '../common';
+import { MdDelete, MdModeEditOutline } from "react-icons/md";
+import EditImportOrder from './EditImportOrder';
+import DeleteImportOrder from './DeleteImportOrder';
 
-const ImportOrderItem = ({ data }) => {
+const ImportOrderItem = ({ data, fetchData }) => {
     const { orderCode, importedBy, supplier, importDate, products = [] } = data;
     const [productDetails, setProductDetails] = useState([]);
+    const [editOrder, setEditOrder] = useState(false);
+    const [deleteOrder, setDeleteOrder] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchProductDetails = async () => {
-            const productDetailsArray = [];
-            for (const product of products) {
-                try {
-                    const response = await fetch(SummaryApi.getProductById.url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ productId: product.product }) // Gửi ID sản phẩm trong request body
-                    });
-                    const data = await response.json();
-                    if (data.success) {
-                        productDetailsArray.push({ ...data.data, quantity: product.quantity });
-                    } else {
-                        console.error("Failed to fetch product:", data.message);
-                    }
-                } catch (error) {
-                    console.error("Error fetching product details:", error);
-                }
+            setLoading(true);
+            try {
+                const productDetailsArray = await Promise.all(
+                    products.map(async (product) => {
+                        const response = await fetch(SummaryApi.getProductById.url, {
+                            method: SummaryApi.getProductById.method,
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ productId: product.product })
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            return { ...data.data, quantity: product.quantity };
+                        } else {
+                            console.error("Failed to fetch product:", data.message);
+                            return null;
+                        }
+                    })
+                );
+                setProductDetails(productDetailsArray.filter(product => product !== null));
+            } catch (error) {
+                console.error("Error fetching product details:", error);
+                setError("Failed to fetch product details.");
+            } finally {
+                setLoading(false);
             }
-            setProductDetails(productDetailsArray);
         };
 
         fetchProductDetails();
     }, [products]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div className='bg-gray-100 p-6 m-4 shadow-md rounded-lg'>
@@ -40,7 +61,7 @@ const ImportOrderItem = ({ data }) => {
                 <strong className='text-lg'>Người nhập hàng:</strong> <span>{importedBy}</span>
             </div>
             <div className='mb-2 text-gray-700'>
-                <strong className='text-lg'>Nhà cung cấp:</strong> <span>{supplier.name}</span>
+                <strong className='text-lg'>Nhà cung cấp:</strong> <span>{supplier}</span>
             </div>
             <div className='mb-2 text-gray-700'>
                 <strong className='text-lg'>Ngày nhập hàng:</strong> <span>{new Date(importDate).toLocaleDateString()}</span>
@@ -74,7 +95,24 @@ const ImportOrderItem = ({ data }) => {
                     </table>
                 </div>
             </div>
-            
+            <div className='flex justify-end mt-4'>
+                <button 
+                    onClick={() => setEditOrder(true)} 
+                    className='bg-green-500 text-white py-1 px-3 rounded-full hover:bg-green-600 mr-2'
+                    aria-label='Edit Order'
+                >
+                    <MdModeEditOutline />
+                </button>
+                <button 
+                    onClick={() => setDeleteOrder(true)} 
+                    className='bg-red-500 text-white py-1 px-3 rounded-full hover:bg-red-600'
+                    aria-label='Delete Order'
+                >
+                    <MdDelete />
+                </button>
+            </div>
+            {editOrder && <EditImportOrder data={data} onClose={() => setEditOrder(false)} fetchData={fetchData} />}
+            {deleteOrder && <DeleteImportOrder data={data} onClose={() => setDeleteOrder(false)} fetchData={fetchData} />}
         </div>
     );
 };
