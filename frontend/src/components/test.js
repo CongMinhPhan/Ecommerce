@@ -1,337 +1,148 @@
-import React, { useState, useEffect } from 'react';
-import { CgClose } from "react-icons/cg";
-import productCategory from '../helpers/productCategory';
-import { FaCloudUploadAlt } from "react-icons/fa";
-import uploadImage from '../helpers/uploadImage';
-import DisplayImage from './DisplayImage';
-import { MdDelete } from "react-icons/md";
+import React, { useContext, useState } from 'react'
+import Logo from './Logo'
+import { GrSearch } from "react-icons/gr";
+import { FaRegCircleUser } from "react-icons/fa6";
+import { FaShoppingCart } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import SummaryApi from '../common';
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
+import { setUserDetails } from '../store/userSlice';
+import ROLE from '../common/role';
+import Context from '../context';
 
-const UploadProduct = ({ onClose, fetchData }) => {
-  const [data, setData] = useState({
-    productName: "",
-    brandName: "",
-    category: "",
-    productImage: [],
-    description: "",
-    price: "",
-    sellingPrice: "",
-    dimensions: {
-        length: "",
-        width: "",
-        height: ""
-    },
-    weight: "",
-    suppliers: [] // Thêm trường suppliers
-  });
-  const [suppliers, setSuppliers] = useState([]); // Thêm state cho danh sách nhà cung cấp
-  const [openFullScreenImage, setOpenFullScreenImage] = useState(false);
-  const [fullScreenImage, setFullScreenImage] = useState("");
+const Header = () => {
+  const user = useSelector(state => state?.user?.user)
+  const dispatch = useDispatch()
+  const [menuDisplay,setMenuDisplay] = useState(false)
+  const context = useContext(Context)
+  const navigate = useNavigate()
+  const searchInput = useLocation()
+  const URLSearch = new URLSearchParams(searchInput?.search)
+  const searchQuery = URLSearch.getAll("q")
+  const [search,setSearch] = useState(searchQuery)
 
-  useEffect(() => {
-    // Lấy danh sách nhà cung cấp từ server
-    const fetchSuppliers = async () => {
-      const response = await fetch(SummaryApi.allSupplier.url)
-      const dataResponse = await response.json();
-
-      setSuppliers(dataResponse?.data || [])
-    };
-    fetchSuppliers();
-  }, []);
-
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleDimensionChange = (e) => {
-    const { name, value } = e.target;
-    setData((prev) => ({
-      ...prev,
-      dimensions: {
-        ...prev.dimensions,
-        [name]: value
-      }
-    }));
-  };
-
-  const handleSupplierChange = (e) => {
-    const { options } = e.target;
-    const selectedSuppliers = [];
-    for (const option of options) {
-      if (option.selected) {
-        selectedSuppliers.push(option.value);
-      }
-    }
-    setData((prev) => ({
-      ...prev,
-      suppliers: selectedSuppliers
-    }));
-  };
-
-  const handleUploadProduct = async (e) => {
-    const file = e.target.files[0];
-    const uploadImageCloudinary = await uploadImage(file);
-
-    setData((prev) => ({
-      ...prev,
-      productImage: [...prev.productImage, uploadImageCloudinary.url]
-    }));
-  };
-
-  const handleDeleteProductImage = async (index) => {
-    console.log("image index", index);
-
-    const newProductImage = [...data.productImage];
-    newProductImage.splice(index, 1);
-
-    setData((prev) => ({
-      ...prev,
-      productImage: [...newProductImage]
-    }));
-  };
-
-  
-  const removeSupplier = (supplierId) => {
-    setData((prev) => ({
-      ...prev,
-      suppliers: prev.suppliers.filter(id => id !== supplierId)
-    }));
-  };
-
-  const handleSubmit = async(e) =>{
-    e.preventDefault()
-    
-    const response = await fetch(SummaryApi.uploadProduct.url,{
-      method : SummaryApi.uploadProduct.method,
-      credentials : 'include',
-      headers : {
-        "content-type" : "application/json"
-      },
-      body : JSON.stringify(data)
+  const handleLogout = async() => {
+    const fetchData = await fetch(SummaryApi.logout_user.url,{
+      method : SummaryApi.logout_user.method,
+      credentials : 'include'
     })
 
-    const responseData = await response.json()
+    const data = await fetchData.json()
 
-    if(responseData.success){
-        toast.success(responseData?.message)
-        onClose()
-        fetchData()
+    if(data.success){
+      toast.success(data.message)
+      dispatch(setUserDetails(null))
+      navigate("/")
     }
 
-
-    if(responseData.error){
-      toast.error(responseData?.message)
+    if(data.error){
+      toast.error(data.message)
     }
 
   }
+
+  const handleSearch = (e)=>{
+    const { value } = e.target
+    setSearch(value)
+
+    if(value){
+      navigate(`/search?q=${value}`)
+    }
+    else{
+      navigate("/search")
+    }
+  }
   return (
-    <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
-      <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden'>
-        <div className='flex justify-between items-center pb-3'>
-          <h2 className='font-bold text-lg'>Thêm sản phẩm</h2>
-          <div className='w-fit ml-auto text-2xl hover:text-red-600 cursor-pointer' onClick={onClose}>
-            <CgClose />
-          </div>
-        </div>
-
-        <form className='grid p-4 gap-2 overflow-y-scroll h-full pb-5' onSubmit={handleSubmit}>
-          <label htmlFor='productName'>Tên sản phẩm :</label>
-          <input
-            type='text'
-            id='productName'
-            placeholder='enter product name'
-            name='productName'
-            value={data.productName}
-            onChange={handleOnChange}
-            className='p-2 bg-slate-100 border rounded'
-            required
-          />
-
-          <label htmlFor='brandName' className='mt-3'>Tên hãng :</label>
-          <input
-            type='text'
-            id='brandName'
-            placeholder='enter brand name'
-            value={data.brandName}
-            name='brandName'
-            onChange={handleOnChange}
-            className='p-2 bg-slate-100 border rounded'
-            required
-          />
-
-          <label htmlFor='category' className='mt-3'>Danh mục :</label>
-          <select required value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 border rounded'>
-            <option value={""}>Chọn danh mục</option>
-            {
-              productCategory.map((el, index) => (
-                <option value={el.value} key={el.value + index}>{el.label}</option>
-              ))
-            }
-          </select>
-
-          <label htmlFor='suppliers' className='mt-3'>Nhà cung cấp :</label>
-          <div className='p-2 bg-slate-100 border rounded'>
-            <select onChange={handleSupplierChange} className='p-2 bg-slate-100 border rounded w-full'>
-              <option value="">Chọn nhà cung cấp</option>
-              {
-                suppliers.map(supplier => (
-                  <option key={supplier._id} value={supplier._id}>{supplier.name}</option>
-                ))
-              }
-            </select>
-            {
-                data.suppliers.map(supplierId => {
-                  const supplier = suppliers.find(s => s._id === supplierId);
-                  return (
-                    <div key={supplierId} className='flex items-center bg-gray-200 p-2 rounded mr-2 mb-2'>
-                      <span>{supplier?.name}</span>
-                      <CgClose className='ml-2 cursor-pointer' onClick={() => removeSupplier(supplierId)} />
-                    </div>
-                  );
-                })
-              }
-            {/* <div className='flex flex-wrap mt-2'>
-              
-            </div> */}
-          </div>
-
-          <label htmlFor='productImage' className='mt-3'>Ảnh sản phẩm :</label>
-          <label htmlFor='uploadImageInput'>
-            <div className='p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer'>
-              <div className='text-slate-500 flex justify-center items-center flex-col gap-2'>
-                <span className='text-4xl'><FaCloudUploadAlt /></span>
-                <p className='text-sm'>Thêm ảnh</p>
-                <input type='file' id='uploadImageInput' className='hidden' onChange={handleUploadProduct} />
-              </div>
+    <header className='h-16 shadow-md bg-white fixed w-full z-40'>
+      <div className=' h-full container mx-auto flex items-center px-4 justify-between'>
+            <div className='flex items-center'>
+                <Link to={"/"}>
+                    <Logo w={60} h={40}/>
+                </Link>
             </div>
-          </label>
-          <div>
-            {
-              data?.productImage[0] ? (
-                <div className='flex items-center gap-2'>
-                  {
-                    data.productImage.map((el, index) => (
-                      <div className='relative group' key={index}>
-                        <img
-                          src={el}
-                          alt={el}
-                          width={80}
-                          height={80}
-                          className='bg-slate-100 border cursor-pointer'
-                          onClick={() => {
-                            setOpenFullScreenImage(true);
-                            setFullScreenImage(el);
-                          }} />
 
-                        <div className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer' onClick={() => handleDeleteProductImage(index)}>
-                          <MdDelete />
-                        </div>
-                      </div>
-                    ))
-                  }
+            <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2'>
+                <input type='text' placeholder='Tìm kiếm sản phẩm...' className='w-full outline-none' onChange={handleSearch} value={search}/>
+                <div className='text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white'>
+                  <GrSearch />
                 </div>
-              ) : (
-                <p className='text-red-600 text-xs'>*Hãy thêm ảnh</p>
-              )
-            }
-          </div>
+            </div>
 
-          <label htmlFor='price' className='mt-3'>Giá :</label>
-          <input
-            type='number'
-            id='price'
-            placeholder='enter price'
-            value={data.price}
-            name='price'
-            onChange={handleOnChange}
-            className='p-2 bg-slate-100 border rounded'
-            required
-          />
 
-          <label htmlFor='sellingPrice' className='mt-3'>Giá bán :</label>
-          <input
-            type='number'
-            id='sellingPrice'
-            placeholder='enter selling price'
-            value={data.sellingPrice}
-            name='sellingPrice'
-            onChange={handleOnChange}
-            className='p-2 bg-slate-100 border rounded'
-            required
-          />
+            <div className='flex items-center gap-7'>
+                
+                <div className='relative flex justify-center'>
 
-          <label htmlFor='length' className='mt-3'>Chiều dài (cm):</label>
-          <input
-            type='number'
-            id='length'
-            placeholder='enter length'
-            value={data.dimensions.length}
-            name='length'
-            onChange={handleDimensionChange}
-            className='p-2 bg-slate-100 border rounded'
-            required
-          />
+                  {
+                    user?._id && (
+                      <div className='text-3xl cursor-pointer relative flex justify-center' onClick={()=>setMenuDisplay(preve => !preve)}>
+                        {
+                          user?.profilePic ? (
+                            <img src={user?.profilePic} className='w-10 h-10 rounded-full' alt={user?.name} />
+                          ) : (
+                            <FaRegCircleUser/>
+                          )
+                        }
+                      </div>
+                    )
+                  }
+                  
+                  
+                  {
+                    menuDisplay   ? (
+                      <>
+                        <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded' >
+                          <nav>
+                            {
+                              user?.role === ROLE.ADMIN && (
+                                <Link to={"/admin-panel/all-products"} className='whitespace-nowrap hidden hover:block md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve => !preve)}>Quản lý</Link>
+                              )
+                            }
+                          </nav>
+                        </div>
+                      </>
+                  
+                    ) : (
+                      <>
+                        {/* <div className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2'>MenuUser</div> */}
+                      </>
+                    )
+                  }
+                 
+                </div>
 
-          <label htmlFor='width' className='mt-3'>Chiều rộng (cm):</label>
-          <input
-            type='number'
-            id='width'
-            placeholder='enter width'
-            value={data.dimensions.width}
-            name='width'
-            onChange={handleDimensionChange}
-            className='p-2 bg-slate-100 border rounded'
-            required
-          />
+                  {
+                     user?._id && (
+                      <Link to={"/cart"} className='text-2xl relative'>
+                          <span><FaShoppingCart/></span>
+      
+                          <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
+                              <p className='text-sm'>{context?.cartProductCount}</p>
+                          </div>
+                      </Link>
+                      )
+                  }
+              
 
-          <label htmlFor='height' className='mt-3'>Chiều cao (cm):</label>
-          <input
-            type='number'
-            id='height'
-            placeholder='enter height'
-            value={data.dimensions.height}
-            name='height'
-            onChange={handleDimensionChange}
-            className='p-2 bg-slate-100 border rounded'
-            required
-          />
 
-          <label htmlFor='weight' className='mt-3'>Trọng lượng (kg):</label>
-          <input
-            type='number'
-            id='weight'
-            placeholder='enter weight'
-            value={data.weight}
-            name='weight'
-            onChange={handleOnChange}
-            className='p-2 bg-slate-100 border rounded'
-            required
-          />
+                <div>
+                  {
+                    user?._id  ? (
+                      <button onClick={handleLogout} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'>Đăng xuất</button>
+                    )
+                    : (
+                    <Link to={"/login"} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'>Đăng nhập</Link>
+                    )
+                  }
+                    
+                </div>
 
-          <label htmlFor='description' className='mt-3'>Mô tả :</label>
-          <textarea
-            className='h-28 bg-slate-100 border resize-none p-1'
-            placeholder='enter product description'
-            rows={3}
-            onChange={handleOnChange}
-            name='description'
-            value={data.description}>
-          </textarea>
+            </div>
 
-          <button className='px-3 py-2 bg-red-600 text-white mb-10 hover:bg-red-700'>Thêm sản phẩm</button>
-        </form>
       </div>
+    </header>
+  )
+}
 
-      {openFullScreenImage && (
-        <DisplayImage onClose={() => setOpenFullScreenImage(false)} imgUrl={fullScreenImage} />
-      )}
-    </div>
-  );
-};
-
-export default UploadProduct;
+export default Header

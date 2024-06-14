@@ -1,3 +1,4 @@
+
 const backendDomin = "http://localhost:8080"
 
 const SummaryApi = {
@@ -21,6 +22,23 @@ const SummaryApi = {
         url : `${backendDomin}/api/all-user`,
         method : 'get'
     },
+    changePassword : {
+        url : `${backendDomin}/api/change-password`,
+        method : "post"
+    },
+    uploadAddress: {
+        url : `${backendDomin}/api/upload-address-delivery`,
+        method : 'post'
+    },
+    allAddress: {
+        url: `${backendDomin}/api/get-address-delivery`,
+        method : 'get'
+    },
+    deleteAddress: {
+        url : `${backendDomin}/api/delete-address-delivery`,
+        method : 'post'
+    },
+
     updateUser : {
         url : `${backendDomin}/api/update-user`,
         method : "post"
@@ -105,6 +123,7 @@ const SummaryApi = {
         url: `${backendDomin}/api/get-products-by-supplier`,
         method: 'post'
     },
+
     getProductById: {
         url: `${backendDomin}/api/get-product-by-id/`, 
         method: 'post' 
@@ -113,6 +132,16 @@ const SummaryApi = {
         url: `${backendDomin}/api/get-importOrder-by-id`,
         method: 'post'
     },
+    getSupplierById: {
+        url: `${backendDomin}/api/get-supplier-by-id`,
+        method: 'post'
+    },
+    getAddressById: {
+        url: `${backendDomin}/api/get-address-by-id`,
+        method: 'post'
+    },
+
+
     deleteImportOrder: {
         url: `${backendDomin}/api/delete-importOrder`,
         method: 'post'
@@ -123,6 +152,14 @@ const SummaryApi = {
     },
     updateImportOrder:{
         url: `${backendDomin}/api/update-importOrder`,
+        method: 'post'
+    },
+    allWarehouse: {
+        url: `${backendDomin}/api/get-warehouse`,
+        method: 'get'
+    },
+    uploaWarehouse: {
+        url: `${backendDomin}/api/upload-warehouse`,
         method: 'post'
     }
 

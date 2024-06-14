@@ -10,11 +10,13 @@ const UploadImportOrder = ({ onClose, fetchData }) => {
         importedBy: "",
         supplier: "",
         importDate: "",
-        products: []
+        products: [],
+        warehouse: "",
     });
     const [allSuppliers, setAllSuppliers] = useState([]);
     const [productsBySupplier, setProductsBySupplier] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const [warehouses, setWarehouses] = useState([])
 
     useEffect(() => {
         const fetchAllSuppliers = async () => {
@@ -33,7 +35,25 @@ const UploadImportOrder = ({ onClose, fetchData }) => {
             }
         };
 
+        const fetchWarehouses = async () => {
+            try {
+                const response = await fetch(SummaryApi.allWarehouse.url, {
+                    method: SummaryApi.allWarehouse.method,
+                    credentials: 'include',
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                const dataResponse = await response.json();
+                setWarehouses(dataResponse?.data || []);
+                console.log('wareHouse: ', dataResponse.data);
+            } catch (error) {
+                console.error("Error while fetching warehouses:", error);
+            }
+        };
+
         fetchAllSuppliers();
+        fetchWarehouses();
     }, []);
 
     const fetchProductsBySupplier = async (supplierId) => {
@@ -97,8 +117,8 @@ const UploadImportOrder = ({ onClose, fetchData }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try 
-        {
+        console.log("Data being sent:", data); // Thêm dòng này để kiểm tra dữ liệu gửi đi
+        try {
             const response = await fetch(SummaryApi.uploadImportOrder.url, {
                 method: SummaryApi.uploadImportOrder.method,
                 credentials: 'include',
@@ -112,17 +132,15 @@ const UploadImportOrder = ({ onClose, fetchData }) => {
                 toast.success(responseData.message);
                 onClose();
                 fetchData();
-            } 
-            // else {
-            //     toast.error(responseData.message);
-            // }
+            } else {
+                toast.error(responseData.message);
+            }
             console.log(responseData);
-        } 
-        catch (error) {
-            // toast.error("Error while submitting import order");
+        } catch (error) {
+            toast.error("Error while submitting import order");
         }
     };
-
+    
     return (
         <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 flex justify-center items-center'>
             <motion.div 
@@ -212,6 +230,21 @@ const UploadImportOrder = ({ onClose, fetchData }) => {
                             )}
                         </div>
                     </div>
+                    <label htmlFor='warehouse' className='font-medium'>Kho hàng:</label>
+                    <select
+                        id='warehouse'
+                        name='warehouse'
+                        value={data.warehouse}
+                        onChange={handleOnChange}
+                        className='p-2 bg-slate-100 border rounded mb-4'
+                        required
+                    >
+                        <option value="">Chọn kho hàng</option>
+                        {warehouses.map(warehouse => (
+                            <option key={warehouse._id} value={warehouse._id}>{warehouse.warehouseName}
+                            </option>
+                        ))}
+                    </select>
                     <div className='mt-auto'>
                         <motion.button 
                             whileHover={{ scale: 1.05 }}

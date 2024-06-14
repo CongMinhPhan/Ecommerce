@@ -44,6 +44,7 @@ const ImportOrderItem = ({ data, fetchData }) => {
         };
 
         fetchProductDetails();
+        console.log('product list: ', productDetails);
     }, [products]);
 
     if (loading) {

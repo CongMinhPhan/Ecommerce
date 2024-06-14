@@ -15,6 +15,7 @@ const getCategoryProduct = async(req,res)=>{
 
             if (product) {
                 productByCategory.push(product)
+                
             }
         }
 

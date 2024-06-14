@@ -1,6 +1,7 @@
 const uploadProductPermission = require("../../helpers/permission");
 const importOrderModel = require("../../models/importOrderModel");
 const supplierModel = require("../../models/supplierModel");
+const warehouseModel = require("../../models/warehouseModel");
 
 const uploadImportOrder = async (req, res) => {
     try {
@@ -10,26 +11,52 @@ const uploadImportOrder = async (req, res) => {
             throw new Error("Permission denied");
         }
 
-        // Tạo đơn hàng mới
-        const newImportOrder = new importOrderModel(req.body);
-        const saveImportOrder = await newImportOrder.save();
+        const selectedWarehouseId = req.body.warehouse;
+        if (!selectedWarehouseId) {
+            throw new Error("Selected warehouse not provided");
+        }
 
-        // Cập nhật supplier với đơn hàng mới
+        const newImportOrder = new importOrderModel(req.body);
+        const savedImportOrder = await newImportOrder.save();
+
         const supplierUpdate = await supplierModel.findByIdAndUpdate(
-            saveImportOrder.supplier,
-            { $push: { orders: saveImportOrder._id } },
+            savedImportOrder.supplier,
+            { $push: { orders: savedImportOrder._id } },
             { new: true, useFindAndModify: false }
         );
 
         if (!supplierUpdate) {
-            throw new Error("Supplier not found or failed to update");
+            throw new Error("Failed to update supplier");
         }
+
+        const existingInventory = await warehouseModel.findById(selectedWarehouseId);
+        if (!existingInventory) {
+            throw new Error("Selected warehouse not found");
+        }
+
+        if (!Array.isArray(existingInventory.products)) {
+            existingInventory.products = [];
+        }
+
+        for (const product of savedImportOrder.products) {
+            const productIndex = existingInventory.products.findIndex(p => p.product.toString() === product.product.toString());
+            if (productIndex !== -1) {
+                existingInventory.products[productIndex].quantity += product.quantity;
+            } else {
+                existingInventory.products.push({ product: product.product, quantity: product.quantity });
+            }
+        }
+
+        existingInventory.importOrder.push(savedImportOrder._id);
+        existingInventory.suppliers.push(savedImportOrder.supplier);
+
+        await existingInventory.save();
 
         res.status(201).json({
             message: "Import Order uploaded successfully",
             error: false,
             success: true,
-            data: saveImportOrder
+            data: savedImportOrder
         });
     } catch (err) {
         res.status(500).json({

@@ -33,6 +33,14 @@ const deleteImportOrder = require('../controller/importOrder/deleteImportOrder')
 const checkPasswordImportOrder = require('../controller/importOrder/checkPasswordImportOrder ')
 const updateImportOrder = require('../controller/importOrder/updateImportOrder')
 const getImportOrderById = require('../helpers/getImportOrderById')
+const uploadWarehouse = require('../controller/warehouse/uploadWarehouse')
+const getWarehouse = require('../controller/warehouse/getWarehouse')
+const getSupplierById = require('../helpers/getSupplierById')
+const changePasswordController = require('../controller/user/changePassword')
+const UploadAddress = require('../controller/address/uploadAddress')
+const getAddress = require('../controller/address/getAddress')
+const getAddressById = require('../helpers/getAddressById')
+const deleteAddress = require('../controller/address/deleteAddress')
 
 
 
@@ -41,9 +49,17 @@ router.post("/signup",userSignUpController)
 router.post("/signin",userSignInController)
 router.get("/user-details",authToken,userDetailsController)
 router.get("/userLogout",userLogout)
+router.post("/change-password", authToken, changePasswordController)
 
-router.post('/get-product-by-id/', getProductById);
-router.post('/get-importOrder-by-id', getImportOrderById)
+// Address
+router.post('/upload-address-delivery', authToken, UploadAddress)
+router.get('/get-address-delivery', authToken, getAddress)
+router.post('/delete-address-delivery', authToken, deleteAddress)
+
+router.post('/get-product-by-id/', authToken, getProductById);
+router.post('/get-importOrder-by-id', authToken, getImportOrderById)
+router.post('get-supplier-by-id', getSupplierById)
+router.post('/get-address-by-id', authToken, getAddressById)
 
 //admin panel 
 router.get("/all-user",authToken,allUsers)
@@ -78,6 +94,11 @@ router.post('/get-products-by-supplier', authToken, getProductsBySupplier)
 router.post('/delete-importOrder', deleteImportOrder)
 router.post('/check-password-import-order', checkPasswordImportOrder)
 router.post('/update-importOrder', updateImportOrder)
+
+// Inventory
+router.post('/upload-warehouse', authToken, uploadWarehouse)
+router.get('/get-warehouse', authToken, getWarehouse)
+
 
 
 

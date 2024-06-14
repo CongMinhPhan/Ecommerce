@@ -13,6 +13,7 @@ const AdminPanel = () => {
         if(user?.role !== ROLE.ADMIN){
             navigate("/")
         }
+        console.log('check user: ', user);
     },[user])
 
   return (
@@ -39,6 +40,7 @@ const AdminPanel = () => {
                     <Link to={"all-products"} className='px-2 py-1 hover:bg-slate-100'>Tất cả sản phẩm</Link>
                     <Link to={"all-supplier"} className='px-2 py-1 hover:bg-slate-100'>Nhà cung cấp</Link>
                     <Link to={"all-importOrder"} className='px-2 py-1 hover:bg-slate-100'>Nhập hàng</Link>
+                    <Link to={"all-warehouse"} className='px-2 py-1 hover:bg-slate-100'>Kho hàng </Link>
                 </nav>
             </div>  
         </aside>

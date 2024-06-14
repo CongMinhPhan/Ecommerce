@@ -19,7 +19,7 @@ const UploadProductController = async (req, res) => {
 
         // Thêm _id của sản phẩm vào danh sách productsSupplied của các nhà cung cấp
         await supplierModel.updateMany(
-            { _id: { $in: req.body.suppliers } },
+            { _id: { $in: req.body.suppliers} },
             { $push: { productsSupplied:  productId } }
         );
 

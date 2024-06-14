@@ -30,7 +30,13 @@ const UploadProduct = ({ onClose, fetchData }) => {
   const [fullScreenImage, setFullScreenImage] = useState("");
 
   const fetchSuppliers = async () => {
-    const response = await fetch(SummaryApi.allSupplier.url)
+    const response = await fetch(SummaryApi.allSupplier.url, {
+      method: SummaryApi.allSupplier.method,
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
     const dataResponse = await response.json();
 
     setSuppliers(dataResponse?.data || [])
@@ -39,6 +45,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
   useEffect(() => {
     // Lấy danh sách nhà cung cấp từ server 
     fetchSuppliers();
+    console.log('close: ', onClose);
   }, []);
 
   const handleOnChange = (e) => {
