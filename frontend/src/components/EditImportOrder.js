@@ -20,6 +20,7 @@ const EditImportOrder = ({ orderData, onClose, fetchData }) => {
     const [allWarehouses, setAllWarehouses] = useState([]);
 
     useEffect(() => {
+        console.log('check edit imported products: ', orderData);
         const fetchAllSuppliers = async () => {
             try {
                 const response = await fetch(SummaryApi.allSupplier.url, {

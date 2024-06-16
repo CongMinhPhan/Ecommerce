@@ -111,6 +111,15 @@ const SummaryApi = {
         url : `${backendDomin}/api/get-product-supplier`,
         method : 'post'
     },
+    updateSupplier : {
+        url : `${backendDomin}/api/update-supplier`,
+        method : 'post'
+    },
+    deleteSupplier : {
+        url : `${backendDomin}/api/delete-supplier`,
+        method : 'post'
+    },
+
     allImportOrders : {
         url : `${backendDomin}/api/get-importOrder`,
         method : 'get'
@@ -140,6 +149,10 @@ const SummaryApi = {
         url: `${backendDomin}/api/get-address-by-id`,
         method: 'post'
     },
+    updateAddress: {
+        url: `${backendDomin}/api/update-address-delivery`,
+        method: 'post'
+    },
 
 
     deleteImportOrder: {
@@ -161,7 +174,11 @@ const SummaryApi = {
     uploaWarehouse: {
         url: `${backendDomin}/api/upload-warehouse`,
         method: 'post'
-    }
+    },
+    updateWarehouse : {
+        url: `${backendDomin}/api/update-warehouse`,
+        method: 'post'
+    },
 
 }
     

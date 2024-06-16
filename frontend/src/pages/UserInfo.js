@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { AiOutlineUser, AiOutlineMail, AiOutlineHome } from 'react-icons/ai';
 import SummaryApi from '../common';
 import ChangePassword from '../components/ChangePassword';
 import UploadAddress from '../components/UploadAddress';
 import AddressItem from '../components/AddressItem';
+import EditUser from '../components/EditUser';
+import DeleteUser from '../components/DeleteUser';
 
 const UserInfo = () => {
   const user = useSelector(state => state?.user?.user);
   const addressListId = user?.addresses || [];
   const [openChangePassword, setOpenChangePassword] = useState(false);
   const [openUploadAddress, setOpenUploadAddress] = useState(false);
+  const [openEditUser, setOpenEditUser] = useState(false);
+  const [openDeleteUser, setOpenDeleteUser] = useState(false);
   const [userAddress, setUserAddress] = useState([]);
 
   const fetchUserAddress = async () => {
@@ -42,11 +47,10 @@ const UserInfo = () => {
 
   useEffect(() => {
     fetchUserAddress();
-    console.log('check user address: ', addressListId);
   }, [addressListId]);
 
   return (
-    <div className="flex items-center justify-center max-h-screen bg-gray-50 py-4 px-4">
+    <div className="flex items-center justify-center h-[80vh] bg-gray-50 overflow-hidden m-4">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg p-6 overflow-hidden">
         <div className="flex-1 mb-8">
           <div className="border-b border-gray-300 pb-4 mb-8">
@@ -59,8 +63,18 @@ const UserInfo = () => {
                 </div>
               )}
               <div>
-                <h2 className="text-4xl font-bold text-gray-800 border-b-4 border-blue-500 pb-1 capitalize">{user?.name}</h2>
-                <p className="text-lg text-gray-600">{user?.email}</p>
+                <h2 className="text-4xl font-bold text-gray-800 border-b-4 border-blue-500 pb-1 capitalize flex items-center">
+                  <AiOutlineUser className="mr-2" />
+                  {user?.name}
+                </h2>
+                <div className="flex items-center text-lg text-gray-600 mt-2">
+                  <AiOutlineMail className="mr-2" />
+                  <p>{user?.email}</p>
+                </div>
+                <div className="flex items-center text-lg text-gray-600 mt-2">
+                  <AiOutlineHome className="mr-2" />
+                  <p>{user?.address}</p>
+                </div>
               </div>
             </div>
             <div className="text-center">
@@ -74,32 +88,50 @@ const UserInfo = () => {
                 <p className="text-lg font-bold text-gray-700 mb-4">Email: {user?.email}</p>
               </div>
               <div className="mt-2">
-                <button 
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 w-full max-w-[200px] rounded-full transition-transform transform hover:scale-105 shadow-md mb-4"
+                <button
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 w-full rounded-full transition-transform transform hover:scale-105 shadow-md mb-4"
                   onClick={() => setOpenChangePassword(true)}
                 >
                   Đổi mật khẩu
                 </button>
-                <button 
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 w-full max-w-[200px] rounded-full transition-transform transform hover:scale-105 shadow-md"
+                <button
+                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 w-full rounded-full transition-transform transform hover:scale-105 shadow-md mb-4"
                   onClick={() => setOpenUploadAddress(true)}
                 >
                   Cập nhật địa chỉ
+                </button>
+                <button
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 w-full rounded-full transition-transform transform hover:scale-105 shadow-md mb-4"
+                  onClick={() => setOpenEditUser(true)}
+                >
+                  Chỉnh sửa người dùng
+                </button>
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 w-full rounded-full transition-transform transform hover:scale-105 shadow-md mt-4"
+                  onClick={() => setOpenDeleteUser(true)}
+                >
+                  Xóa người dùng
                 </button>
               </div>
               {openChangePassword && (
                 <ChangePassword onClose={() => setOpenChangePassword(false)} />
               )}
               {openUploadAddress && (
-                <UploadAddress onClose={() => setOpenUploadAddress(false)} fetchData={fetchUserAddress} user={user}/>
+                <UploadAddress onClose={() => setOpenUploadAddress(false)} fetchData={fetchUserAddress} user={user} />
+              )}
+              {openEditUser && (
+                <EditUser onClose={() => setOpenEditUser(false)} user={user} />
+              )}
+              {openDeleteUser && (
+                <DeleteUser onClose={() => setOpenDeleteUser(false)} user={user} />
               )}
             </div>
             <div className="border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col h-full overflow-hidden">
               <h4 className="text-2xl font-bold text-gray-800 mb-4">Địa chỉ</h4>
-              <div className="flex-1 overflow-y-auto max-h-96"> {/* Setting a higher max height */}
+              <div className="flex-1 overflow-y-auto max-h-96">
                 {userAddress.length > 0 ? (
                   userAddress.map((address) => (
-                    <AddressItem data={address} key={address._id} fetchData={fetchUserAddress} />
+                    <AddressItem onClose={() => setOpenUploadAddress(false)} data={address} key={address._id} fetchData={fetchUserAddress} user={user} />
                   ))
                 ) : (
                   <p className="text-lg text-gray-600">Chưa có địa chỉ</p>

@@ -42,5 +42,3 @@ const UploadAddress = async (req, res) => {
 
 module.exports = UploadAddress;
 
-
-module.exports = UploadAddress;

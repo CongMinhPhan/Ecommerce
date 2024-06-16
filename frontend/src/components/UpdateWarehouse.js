@@ -5,55 +5,25 @@ import SummaryApi from '../common';
 
 const UpdateWarehouse = ({ warehouseData, onClose, fetchData }) => {
   const [formData, setFormData] = useState({
+    ...warehouseData,
     warehouseName: warehouseData?.warehouseName || '',
     warehousePhoneNumber: warehouseData?.warehousePhoneNumber || '',
     warehouseAddress: warehouseData?.warehouseAddress || '',
     products: warehouseData?.products || []
   });
-  const [productDetails, setProductDetails] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 10;
+  const productsPerPage = 10; // Số sản phẩm hiển thị mỗi trang
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchProductDetails = async () => {
-    try {
-      const productListArray = await Promise.all(
-        warehouseData.products.map(async (product) => {
-          const response = await fetch(SummaryApi.getProductById.url, {
-            method: SummaryApi.getProductById.method,
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ productId: product.product })
-          });
-          const data = await response.json();
-          if (data.success) {
-            return {
-              ...data.data,
-              quantity: product.quantity
-            };
-          } else {
-            console.error("Failed to fetch product:", data.message);
-            return null;
-          }
-        })
-      );
-      setProductDetails(productListArray.filter(product => product !== null));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    setFormData({
-      warehouseName: warehouseData?.warehouseName || '',
-      warehousePhoneNumber: warehouseData?.warehousePhoneNumber || '',
-      warehouseAddress: warehouseData?.warehouseAddress || '',
-      products: warehouseData?.products || []
-    });
-    fetchProductDetails();
-  }, [warehouseData]);
+    // setFormData({
+    //   warehouseName: warehouseData?.warehouseName || '',
+    //   warehousePhoneNumber: warehouseData?.warehousePhoneNumber || '',
+    //   warehouseAddress: warehouseData?.warehouseAddress || '',
+    //   products: warehouseData?.products || []
+    // });
+    console.log('check update warehouse: ', warehouseData);
+  });
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -113,7 +83,7 @@ const UpdateWarehouse = ({ warehouseData, onClose, fetchData }) => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productDetails.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = formData.products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -196,30 +166,31 @@ const UpdateWarehouse = ({ warehouseData, onClose, fetchData }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentProducts.map((product, index) => (
-                    <tr key={product._id}>
-                      <td className="px-6 py-4 whitespace-nowrap">{product.productName}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <input
-                          type="number"
-                          min="0"
-                          name="quantity"
-                          value={product.quantity}
-                          onChange={(e) => handleProductChange(indexOfFirstProduct + index, e)}
-                          className="p-2 w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                          required
-                          aria-required="true"
-                          aria-label={`Product quantity for ${product.productName}`}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+  {currentProducts.map((product, index) => (
+    <tr key={product.product}>
+      <td className="px-6 py-4 whitespace-nowrap">{product.productName}</td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <input
+          type="number"
+          min="0"
+          name="quantity"
+          value={product.quantity}
+          onChange={(e) => handleProductChange(indexOfFirstProduct + index, e)}
+          className="p-2 w-full bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          required
+          aria-required="true"
+          aria-label={`Product quantity for ${product.productName}`}
+        />
+      </td>
+    </tr>
+  ))}
+</tbody>
+
               </table>
             </div>
           </div>
 
-          {productDetails.length > productsPerPage && (
+          {formData.products.length > productsPerPage && (
             <div className="flex justify-between items-center pt-4">
               <button
                 type="button"
@@ -230,12 +201,12 @@ const UpdateWarehouse = ({ warehouseData, onClose, fetchData }) => {
                 Trang trước
               </button>
               <span>
-                Trang {currentPage} / {Math.ceil(productDetails.length / productsPerPage)}
+                Trang {currentPage} / {Math.ceil(formData.products.length / productsPerPage)}
               </span>
               <button
                 type="button"
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === Math.ceil(productDetails.length / productsPerPage)}
+                disabled={currentPage === Math.ceil(formData.products.length / productsPerPage)}
                 className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               >
                 Trang sau
@@ -243,21 +214,15 @@ const UpdateWarehouse = ({ warehouseData, onClose, fetchData }) => {
             </div>
           )}
 
-          <div className="flex justify-end space-x-4 pt-4">
-            <button
-              type="button"
-              className="px-4 py-2 bg-gray-300 text-gray-700 font-medium rounded-md shadow-sm hover:bg-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              onClick={onClose}
-              disabled={isLoading}
-            >
-              Hủy
-            </button>
+          <div className="flex justify-end">
             <button
               type="submit"
-              className="px-4 py-2 bg-green-600 text-white font-medium rounded-md shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="mt-4 px-4 py-2 bg-green-600 text-white font-medium rounded-md shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
               disabled={isLoading}
+              aria-busy={isLoading}
+              aria-label="Update Warehouse"
             >
-              {isLoading ? 'Đang lưu...' : 'Lưu'}
+              {isLoading ? 'Đang cập nhật...' : 'Cập nhật kho hàng'}
             </button>
           </div>
         </form>

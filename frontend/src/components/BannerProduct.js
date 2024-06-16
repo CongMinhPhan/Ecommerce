@@ -4,12 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import { FaAngleLeft } from 'react-icons/fa6';
 
+import banner1 from '../assest/banner/banner1.jpeg';
+import banner2 from '../assest/banner/banner2.jpeg';
+import banner3 from '../assest/banner/banner3.jpeg';
+import banner4 from '../assest/banner/banner4.jfif';
+
 const BannerProduct = () => {
     const [currentImage, setCurrentImage] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
 
     const desktopImages = [
-      
+        banner1, banner2, banner3, banner4
     ];
 
     const mobileImages = [

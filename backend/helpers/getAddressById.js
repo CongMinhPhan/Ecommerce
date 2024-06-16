@@ -2,7 +2,7 @@ const AddressDelivery = require("../models/addressModel");
 
 const getAddressById = async(req, res) => {
   try {
-    const addressId = req.body.addressId;
+    const addressId = req.body?.addressId;
     const address = await AddressDelivery.findById(addressId);
 
     if (!address) {

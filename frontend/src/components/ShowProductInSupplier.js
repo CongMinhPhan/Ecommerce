@@ -16,6 +16,7 @@ const ShowProductInSupplier = ({ listProductId, onClose, data }) => {
                     listProductId.map(async (productId) => {
                         const response = await fetch(SummaryApi.getProductById.url, {
                             method: SummaryApi.getProductById.method,
+                            credentials: 'include',
                             headers: {
                                 'Content-Type': 'application/json'
                             },

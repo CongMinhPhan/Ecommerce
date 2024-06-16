@@ -15,6 +15,7 @@ const ShowImportOrderInSupplier = ({ listImportOrderId, onClose, data }) => {
                     listImportOrderId.map(async (orderId) => {
                         const response = await fetch(SummaryApi.getImportOrderById.url, {
                             method: SummaryApi.getImportOrderById.method,
+                            credentials: 'include',
                             headers: {
                                 'Content-Type': 'application/json'
                             },

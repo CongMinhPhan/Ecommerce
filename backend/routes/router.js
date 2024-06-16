@@ -41,6 +41,10 @@ const UploadAddress = require('../controller/address/uploadAddress')
 const getAddress = require('../controller/address/getAddress')
 const getAddressById = require('../helpers/getAddressById')
 const deleteAddress = require('../controller/address/deleteAddress')
+const updateAddress = require('../controller/address/updateAddress')
+const updateSupplier = require('../controller/supplier/updateSupplier')
+const deleteSupplier = require('../controller/supplier/deleteSupplier')
+const updateWarehouse = require('../controller/warehouse/UpdateWarehouse')
 
 
 
@@ -55,6 +59,7 @@ router.post("/change-password", authToken, changePasswordController)
 router.post('/upload-address-delivery', authToken, UploadAddress)
 router.get('/get-address-delivery', authToken, getAddress)
 router.post('/delete-address-delivery', authToken, deleteAddress)
+router.post("/update-address-delivery", authToken, updateAddress)
 
 router.post('/get-product-by-id/', authToken, getProductById);
 router.post('/get-importOrder-by-id', authToken, getImportOrderById)
@@ -86,6 +91,8 @@ router.post("/delete-cart-product",authToken,deleteAddToCartProduct)
 // Supplier
 router.post("/upload-supplier",authToken,UploadSupplierController)
 router.get("/get-supplier", authToken,getSupplierController);
+router.post("/update-supplier",authToken, updateSupplier);
+router.post("/delete-supplier",authToken, deleteSupplier);
 
 // Import Order
 router.post("/upload-importOrder",authToken,uploadImportOrder)
@@ -95,9 +102,10 @@ router.post('/delete-importOrder', deleteImportOrder)
 router.post('/check-password-import-order', checkPasswordImportOrder)
 router.post('/update-importOrder', updateImportOrder)
 
-// Inventory
+// warehouse
 router.post('/upload-warehouse', authToken, uploadWarehouse)
 router.get('/get-warehouse', authToken, getWarehouse)
+router.post('/update-warehouse', authToken, updateWarehouse)
 
 
 

@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import { MdDelete } from "react-icons/md";
+import React, { useEffect, useState } from 'react';
 import SummaryApi from '../common';
 
 const DeleteAddress = ({ data, onClose, fetchData }) => {
-    const [confirmationCode, setConfirmationCode] = useState('');
     const [error, setError] = useState('');
-    const [isConfirmed, setIsConfirmed] = useState(false);
+
+    useEffect(() => {
+        console.log('check delete address: ', data);
+    })
 
     const handleDelete = async () => {
         try {
             const deleteResponse = await fetch(SummaryApi.deleteAddress.url, {
                 method: SummaryApi.deleteAddress.method,
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId: data.userId, _id: data._id })
+                body: JSON.stringify({ _id: data._id })
             });
 
             const deleteResult = await deleteResponse.json();

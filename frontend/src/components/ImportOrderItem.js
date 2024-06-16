@@ -20,6 +20,7 @@ const ImportOrderItem = ({ data, fetchData }) => {
                     products.map(async (product) => {
                         const response = await fetch(SummaryApi.getProductById.url, {
                             method: SummaryApi.getProductById.method,
+                            credentials: 'include',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
