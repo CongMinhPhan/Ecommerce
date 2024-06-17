@@ -13,7 +13,7 @@ const AddressItem = ({ data, fetchData }) => {
   }, [data]);
 
   return (
-    <div className="mb-4 border p-4 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow">
+   <div className="mb-4 border p-4 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow">
       <p className="text-lg text-gray-700 mb-2"><strong>Người nhận:</strong> {recipientName}</p>
       <p className="text-lg text-gray-700 mb-2"><strong>Địa chỉ:</strong> {address}</p>
       <p className="text-lg text-gray-700"><strong>Số điện thoại:</strong> {phoneNumber}</p>
@@ -22,7 +22,7 @@ const AddressItem = ({ data, fetchData }) => {
           onClick={() => setEditAddress(true)} 
           className='bg-green-500 text-white py-1 px-3 rounded-full hover:bg-green-600 mr-2'
           aria-label='Edit Address'
-        >
+        > 
           <MdModeEditOutline />
         </button>
         <button 

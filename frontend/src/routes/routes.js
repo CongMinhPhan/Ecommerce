@@ -15,6 +15,7 @@ import UserInfo from '../pages/UserInfo'
 import AllSupplier from '../pages/AllSupplier'
 import AllImportOrder from '../pages/AllImportOrder'
 import AllWarehouse from '../pages/AllWarehouse'
+import Payment from '../pages/Payment'
 
 const router = createBrowserRouter([
     {
@@ -47,7 +48,13 @@ const router = createBrowserRouter([
             },
             {
                 path : 'cart',
-                element : <Cart/>
+                element : <Cart/>,
+                children : [
+                    {
+                        path : "payment",
+                        element : <Payment/>
+                    }
+                ]
             },
             {
                 path : "search",
@@ -82,7 +89,11 @@ const router = createBrowserRouter([
             {
                 path : "user-info",
                 element: <UserInfo />
-            }
+            },
+            // {
+            //     path: "payment",
+            //     element: <Payment />
+            // }
         ]
     }
 ])

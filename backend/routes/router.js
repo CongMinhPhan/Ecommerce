@@ -45,9 +45,7 @@ const updateAddress = require('../controller/address/updateAddress')
 const updateSupplier = require('../controller/supplier/updateSupplier')
 const deleteSupplier = require('../controller/supplier/deleteSupplier')
 const updateWarehouse = require('../controller/warehouse/UpdateWarehouse')
-
-
-
+const createOrder = require('../controller/pay/createOrder')
 
 router.post("/signup",userSignUpController)
 router.post("/signin",userSignInController)
@@ -106,6 +104,9 @@ router.post('/update-importOrder', updateImportOrder)
 router.post('/upload-warehouse', authToken, uploadWarehouse)
 router.get('/get-warehouse', authToken, getWarehouse)
 router.post('/update-warehouse', authToken, updateWarehouse)
+
+// Payment
+router.post('/create-order', authToken, createOrder)
 
 
 

@@ -180,6 +180,11 @@ const SummaryApi = {
         method: 'post'
     },
 
+    createOrder : {
+        url : `${backendDomin}/api/create-order`,
+        method : 'post'
+    }
+
 }
     
 

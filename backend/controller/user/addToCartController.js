@@ -7,6 +7,8 @@ const addToCartController = async (req, res) => {
 
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng của người dùng hay chưa
         const isProductAvailable = await addToCartModel.findOne({ productId: productId, userId: currentUser });
+        // A: product X, id User 1
+        // B: product X, id user 2
 
         console.log("isProductAvailable", isProductAvailable);
 

@@ -1,4 +1,3 @@
-// UpdateWarehouse.js
 import React, { useState, useEffect } from 'react';
 import { CgClose } from 'react-icons/cg';
 import { toast } from 'react-toastify';
@@ -84,7 +83,7 @@ const UpdateWarehouse = ({ warehouseData, onClose, fetchData }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          id: warehouseData._id, // Ensure this line is correct
+          id: warehouseData._id,
           warehouseName: formData.warehouseName,
           warehousePhoneNumber: formData.warehousePhoneNumber,
           warehouseAddress: formData.warehouseAddress,
@@ -95,15 +94,14 @@ const UpdateWarehouse = ({ warehouseData, onClose, fetchData }) => {
       const responseData = await response.json();
       if (responseData.success) {
         toast.success(responseData.message);
-        fetchData(); // Ensure this is a function
+        fetchData();
         onClose();
       } else {
         toast.error(responseData.message);
       }
     } catch (error) {
       console.error('Error updating warehouse:', error);
-      // toast.error('Đã xảy ra lỗi khi cập nhật kho hàng, vui lòng thử lại sau.');
-      onClose();
+      toast.error('Đã xảy ra lỗi khi cập nhật kho hàng, vui lòng thử lại sau.');
     } finally {
       setIsLoading(false);
     }
@@ -189,15 +187,19 @@ const UpdateWarehouse = ({ warehouseData, onClose, fetchData }) => {
               <table className="min-w-full bg-white">
                 <thead>
                   <tr className="bg-gray-100">
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên sản phẩm</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Số lượng trong kho</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider max-w-xs">
+                      Tên sản phẩm
+                    </th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Số lượng trong kho
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentProducts.map((product, index) => (
                     <tr key={product._id}>
-                      <td className="px-6 py-4 whitespace-normal break-words max-w-xs">{product.productName}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 py-2 whitespace-normal break-words">{product.productName}</td>
+                      <td className="px-4 py-2">
                         <input
                           type="number"
                           min="0"
