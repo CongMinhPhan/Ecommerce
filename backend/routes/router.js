@@ -46,6 +46,7 @@ const updateSupplier = require('../controller/supplier/updateSupplier')
 const deleteSupplier = require('../controller/supplier/deleteSupplier')
 const updateWarehouse = require('../controller/warehouse/UpdateWarehouse')
 const createOrder = require('../controller/pay/createOrder')
+const paymentOnline = require('../controller/pay/paymentOnline')
 
 router.post("/signup",userSignUpController)
 router.post("/signin",userSignInController)
@@ -107,7 +108,7 @@ router.post('/update-warehouse', authToken, updateWarehouse)
 
 // Payment
 router.post('/create-order', authToken, createOrder)
-
+router.post('/payment-online', authToken, paymentOnline)
 
 
 

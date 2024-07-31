@@ -21,7 +21,8 @@ const Payment = ({ selectedProducts, onClose }) => {
   const [userAddress, setUserAddress] = useState([]);
   const [paymentProducts, setPaymentProducts] = useState(selectedProducts);
   const [showAddressList, setShowAddressList] = useState(false);
-  const [showPaymentOnline, setShowPaymentOnline] = useState(false); // State để hiển thị PaymentOnline
+  const [showPaymentOnline, setShowPaymentOnline] = useState(false); 
+  const [orderId, setOrderId] = useState(null);
 
   useEffect(() => {
     const fetchUserAddress = async () => {
@@ -129,6 +130,7 @@ const Payment = ({ selectedProducts, onClose }) => {
 
         const result = await response.json();
         if (result.success) {
+          setOrderId(result.order._id);
           toast.success('Đặt hàng thành công!');
           onClose();
           console.log('Order created successfully:', result);
@@ -254,6 +256,7 @@ const Payment = ({ selectedProducts, onClose }) => {
           onClose={() => setShowPaymentOnline(false)}
           paymentProducts={paymentProducts}
           userAddress={data.userAddress}
+          orderId={orderId}
         />
       )}
 

@@ -11,7 +11,7 @@ const vnPayConfig = require('./config/vnPayConfig');
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
-const FRONTEND_URL = 'http://localhost:3000';
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // Middleware
 app.use(cors({

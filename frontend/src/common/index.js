@@ -1,5 +1,5 @@
 
-const backendDomin = "http://localhost:8080"
+const backendDomin = process.env.BACKEND_URL
 
 const SummaryApi = {
     signUP : {
@@ -183,6 +183,10 @@ const SummaryApi = {
     createOrder : {
         url : `${backendDomin}/api/create-order`,
         method : 'post'
+    },
+    paymentOnline: {
+        url: `${backendDomin}/api/payment-online`,
+        method: 'post'
     }
 
 }

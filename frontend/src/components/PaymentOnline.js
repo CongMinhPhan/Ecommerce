@@ -2,41 +2,36 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import SummaryApi from '../common';
 import displayINRCurrency from '../helpers/displayCurrency';
-import { CgClose } from "react-icons/cg";
+import { CgClose } from 'react-icons/cg';
+import qrCode from '../assest/QrThanhToan.jpg'; // Import ảnh QR từ thư mục assets
 
-const PaymentOnline = ({ totalOrderAmount, onClose, paymentProducts, userAddress }) => {
+const PaymentOnline = ({ totalOrderAmount, onClose, paymentProducts, userAddress, orderId }) => {
   const handlePaymentOnline = async () => {
     try {
-      const response = await fetch(SummaryApi.createOrder.url, {
-        method: SummaryApi.createOrder.method,
+      const response = await fetch(SummaryApi.paymentOnline.url, {
+        method: SummaryApi.paymentOnline.method,
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user: userAddress._id, // Assuming userAddress has _id property
-          products: paymentProducts.map((product) => ({
-            product: product.productId,
-            quantity: product.quantity,
-          })),
-          totalProductAmount: totalOrderAmount, // Assuming this is correct
-          paymentMethod: 'Thanh toán Online', // Hardcoded to 'Thanh toán Online'
-          shippingFee: 0, // You might need to adjust this based on your logic
+          orderId: orderId,
+          totalAmount: totalOrderAmount,
+          paymentProducts: paymentProducts,
           userAddress: userAddress,
         }),
       });
 
       const result = await response.json();
       if (result.success) {
-        toast.success('Đặt hàng thành công!');
+        toast.success('Thanh toán thành công!');
         onClose();
-        console.log('Order created successfully:', result);
       } else {
-        toast.error('Đặt hàng thất bại: ' + result.message);
+        toast.error('Thanh toán thất bại: ' + result.message);
       }
     } catch (error) {
-      console.error('Error creating order:', error);
-      toast.error('Đặt hàng thất bại: ' + error.message);
+      console.error('Error processing payment:', error);
+      // toast.error('Thanh toán thất bại: ' + error.message);
     }
   };
 
@@ -77,6 +72,16 @@ const PaymentOnline = ({ totalOrderAmount, onClose, paymentProducts, userAddress
             <div className='flex justify-between items-center p-4 border-t'>
               <p className='text-lg font-bold'>Tổng cộng thanh toán:</p>
               <p className='text-lg font-bold text-red-600'>{displayINRCurrency(totalOrderAmount)}</p>
+            </div>
+            <h4 className='text-2xl font-bold text-gray-800 mb-4'>Mã QR</h4>
+            <div className='flex justify-center'>
+              <img src={qrCode} alt="QR Code" className='w-48 h-48' />
+            </div>
+            <h4 className='text-2xl font-bold text-gray-800 mb-4'>Thông tin thẻ</h4>
+            <div className='bg-gray-100 p-4 rounded'>
+              <p className='text-lg text-gray-700 mb-2'><strong>Ngân hàng:</strong> NCB</p>
+              <p className='text-lg text-gray-700 mb-2'><strong>Số thẻ:</strong> 9704198526191432198</p>
+              <p className='text-lg text-gray-700 mb-2'><strong>Tên chủ thẻ:</strong> NGUYEN VAN A</p>
             </div>
           </form>
         </div>

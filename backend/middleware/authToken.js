@@ -12,7 +12,7 @@ function authToken(req, res, next) {
             })
         }
         
-        const TOKEN_SECRET_KEY = "TMDT-NHOM7"
+        const TOKEN_SECRET_KEY = process.env.TOKEN_SECRET_KEY
 
         jwt.verify(token, TOKEN_SECRET_KEY, function(err, decoded) {
             if (err) {

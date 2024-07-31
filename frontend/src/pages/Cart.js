@@ -31,12 +31,12 @@ const Cart = () => {
 
   const handleLoading = async () => {
     await fetchData();
+    setLoading(false); // Move this here to set loading to false after data is fetched
   };
 
   useEffect(() => {
     setLoading(true);
     handleLoading();
-    setLoading(false);
   }, []);
 
   const increaseQty = async (id, qty) => {
@@ -134,7 +134,7 @@ const Cart = () => {
               return (
                 <div
                   key={product?._id + 'Add To Cart Loading'}
-                  className={`w-full bg-white h-32 my-2 border border-slate-300 rounded grid grid-cols-[128px,1fr] ${isSelected ? 'bg-blue-100' : ''}`}
+                  className={`w-full bg-white h-32 my-2 border border-slate-300 rounded grid grid-cols-[128px,1fr] transition-all duration-300 ${isSelected ? 'bg-blue-100 border-blue-600 transform scale-105 shadow-lg' : 'hover:brightness-105'}`}
                   onClick={() => toggleSelectProduct(product)}
                 >
                   <div className='w-32 h-32 bg-slate-200'>

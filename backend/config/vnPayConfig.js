@@ -1,12 +1,12 @@
 const vnPayConfig = async () => {
     try {
         // Cấu hình VNPay
-        const vnp_TmnCode = 'MZHISJLF';
-        const vnp_HashSecret = 'M7N36Q35DIEUWRHI5VRZJKDGEPHJU7EO';
-        const vnp_Url = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+        const vnp_TmnCode = process.env.VNP_TMN_CODE;
+        const vnp_HashSecret = process.env.VNP_HASH_SECRET;
+        const vnp_Url = process.env.VNP_URL;
         const merchantAdmin = {
-            username: 'vuhuyhung.work@gmail.com',
-            password: '1602v2002H'
+            username: process.env.MERCHANT_ADMIN_USERNAME,
+            password: process.env.MERCHANT_ADMIN_PASSWORD
         };
 
         // Log thành công khi cấu hình hoàn tất
